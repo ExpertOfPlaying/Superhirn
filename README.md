@@ -1,10 +1,10 @@
 # WiSe23-24_Superhirn_11
 
 ## Fragen an die Stakeholder
-- [ ]Levelschwierigkeit
-- [ ]Künstliche Intelligenz
-- [ ]Plattform (überall wo Python läuft?)
-- [ ]Wie soll der Codierer/Rater den Code eingeben?
+- [ ] [Levelschwierigkeit]
+- [ ] [Künstliche Intelligenz]
+- [ ] [Plattform (überall wo Python läuft?)]
+- [ ] [Wie soll der Codierer/Rater den Code eingeben?]
 - [ ]Hilfeseite für Farben? Tutorial? Wie wird dem Spieler mitgeteilt, wie das Spiel gespielt wird?
 - [ ]Welche Sprache soll das Spiel anbieten?
 - [ ]Wird der Spielmodus gewählt oder soll es zwei Versionen geben?
