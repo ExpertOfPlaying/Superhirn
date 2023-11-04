@@ -1,9 +1,9 @@
 # WiSe23-24_Superhirn_11
 
 ## Fragen an die Stakeholder
-- [ ] Levelschwierigkeit
-- [ ] Künstliche Intelligenz
-- [ ] Plattform (überall wo Python läuft?)
+- [ ] Levelschwierigkeit?
+- [ ] Künstliche Intelligenz?
+- [ ] Plattform, wie performant soll es sein? MicroPython (überall wo Python läuft?)
 - [ ] Wie soll der Codierer/Rater den Code eingeben?
 - [ ] Hilfeseite für Farben? Tutorial? Wie wird dem Spieler mitgeteilt, wie das Spiel gespielt wird?
 - [ ] Welche Sprache soll das Spiel anbieten?
@@ -13,6 +13,9 @@
 - [ ] Sind Lücken/Leerstellen im Code erlaubt?
 - [ ] Sollen die Hinweise geordnet werden?
 - [ ] Kann der Codierer die Hinweise selber "stecken" oder werden diese automatisch eingefügt?
+- [ ] Ist geplant, dass die Zahl der Runden und Farbe variabel ist?
+- [ ] Gibt es ein Zeitlimit bei den Runden für das Codieren oder Raten?
+- [ ] Dopplungen von erratenem Code abfangen?
 
 
 ## Getting started
