@@ -1,5 +1,18 @@
 # WiSe23-24_Superhirn_11
 
+## Fragen an die Stakeholder
+Levelschwierigkeit
+Künstliche Intelligenz
+Plattform (überall wo Python läuft?)
+Wie soll der Codierer/Rater den Code eingeben?
+Hilfeseite für Farben? Tutorial? Wie wird dem Spieler mitgeteilt, wie das Spiel gespielt wird?
+Welche Sprache soll das Spiel anbieten?
+Wird der Spielmodus gewählt oder soll es zwei Versionen geben?
+Was passiert nach der Runde (Neustart, Moduswechsel, Beendung des Programms)?
+Werden die Ergebnisse gespeichert? Gibt es Feedback zur Leistung?
+Sind Lücken/Leerstellen im Code erlaubt?
+Sollen die Hinweise geordnet werden?
+Kann der Codierer die Hinweise selber "stecken" oder werden diese automatisch eingefügt?
 
 
 ## Getting started
@@ -52,7 +65,7 @@ When you're ready to make this README your own, just edit this file and use the 
 Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
 
 ## Name
-Choose a self-explaining name for your project.
+Super Superhirn WiSe23/24 
 
 ## Description
 Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
@@ -74,13 +87,6 @@ Tell people where they can go to for help. It can be any combination of an issue
 
 ## Roadmap
 If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
 
 ## Authors and acknowledgment
 Show your appreciation to those who have contributed to the project.
