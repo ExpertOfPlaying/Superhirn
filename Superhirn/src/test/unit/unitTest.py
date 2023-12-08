@@ -25,7 +25,19 @@ class TestStoneClass(unittest.TestCase):
 
     def test_set_get_amount_stones(self):
         stones = Stone(3)
-        self.assertEqual(stones.get_amount_stones(), 3)
+        self.assertEqual(stones.get_amount_colours(), 3)
+
+    def test_set_get_amount_stones_exception_over(self):
+        with self.assertRaises(ValueError):
+            stones = Stone(9)
+
+    def test_set_get_amount_stones_exception_under(self):
+        with self.assertRaises(ValueError):
+            stones = Stone(1)
+
+    def test_get_colour(self):
+        stones = Stone(3)
+        self.assertEqual(stones.get_colour(0), Colour.RED)
 
 
 class TestRuleBook(unittest.TestCase):
