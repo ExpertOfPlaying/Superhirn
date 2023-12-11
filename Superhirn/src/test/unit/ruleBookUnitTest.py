@@ -1,43 +1,7 @@
 import unittest
 
-from src.main.python.entities.components.stoneComponent.stone.colourEnum import Colour
-from src.main.python.entities.components.userComponent.user.user import User
-from src.main.python.entities.components.stoneComponent.stone.stone import Stone
-from src.main.python.businesslogic.components.ruleBookComponent.ruleBook.ruleBook import RuleBook
-
-
-class TestUserRole(unittest.TestCase):
-    def test_valid_roles(self):
-        # Test, ob die User-Klasse korrekt initialisiert wird, wenn eine gültige Rolle übergeben wird
-        user_rater = User("Rater")
-        user_coder = User("Coder")
-
-        self.assertEqual(user_rater.role, "Rater")
-        self.assertEqual(user_coder.role, "Coder")
-
-    def test_invalid_role(self):
-        # Test, ob die User-Klasse ValueError auslöst, wenn eine ungültige Rolle übergeben wird
-        with self.assertRaises(ValueError):
-            invalid_user = User("InvalidRole")
-
-
-class TestStoneClass(unittest.TestCase):
-
-    def test_set_get_amount_stones(self):
-        stones = Stone(3)
-        self.assertEqual(stones.get_amount_colours(), 3)
-
-    def test_set_get_amount_stones_exception_over(self):
-        with self.assertRaises(ValueError):
-            stones = Stone(9)
-
-    def test_set_get_amount_stones_exception_under(self):
-        with self.assertRaises(ValueError):
-            stones = Stone(1)
-
-    def test_get_colour(self):
-        stones = Stone(3)
-        self.assertEqual(stones.get_colour(0), Colour.RED)
+from src.main.python.businesslogic.ruleBookComponent.ruleBook import RuleBook
+from src.main.python.entities.stoneComponent.colourEnum import Colour
 
 
 class TestRuleBook(unittest.TestCase):
