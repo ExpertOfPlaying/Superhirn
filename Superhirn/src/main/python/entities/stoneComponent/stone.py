@@ -12,6 +12,4 @@ class Stone:
     @colour.setter
     def colour(self, value):
         value = Colour(value)
-        if not isinstance(value, Colour):
-            raise StoneError("Ungültige Farbe")
         self._colour = value
