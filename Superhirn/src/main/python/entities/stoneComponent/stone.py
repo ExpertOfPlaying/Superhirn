@@ -10,7 +10,7 @@ def exception_handler_amount_colours(amount_colours):
         raise ValueError("The number of colours cannot exceed the maximum amount of colours (8).")
 
 
-class Stone(object):
+class Stone(object): #nicht sinvoller nur die aktive Farbe im Stein zu speichern und nicht alle, würde das get_colour Problem lösen???
     def __init__(self, amount_colours=None):
         exception_handler_amount_colours(amount_colours)
         self.stones = amount_colours
