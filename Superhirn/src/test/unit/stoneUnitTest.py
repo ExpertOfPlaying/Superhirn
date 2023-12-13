@@ -25,7 +25,7 @@ class TestStoneClass(unittest.TestCase):
     # # ---------------------------------------------------get_colour---------------------------------------
 
     def test_get_correct_colour(self):
-        stone = Stone (Colour.RED)
+        stone = Stone(Colour.RED)
         self.assertEqual(stone.colour, Colour.RED)
         self.assertEqual(stone.colour.value, Colour.RED.value)
         self.assertNotEquals(stone.colour, Colour.GREEN)
