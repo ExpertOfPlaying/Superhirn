@@ -1,36 +1,31 @@
-def exception_handler_code_length(code_length):
-    if not isinstance(code_length, int):
-        raise TypeError("The length of the code must be an integer.")
-    if code_length < 4:
-        raise ValueError("The length of the code cannot be less than the minimum length (4).")
-    if code_length > 5:
-        raise ValueError("The length of the code cannot exceed the the maximum length (5).")
+from src.main.python.entities.stoneComponent.stone import Stone
 
 
-def exception_handler_attempts(attempts):
-    if not isinstance(attempts, int):
-        raise TypeError("The number of attempts must be an integer.")
-    if attempts < 1:
-        raise ValueError("The number of attempts cannot be less than the minimum length (1).")
-    if attempts > 10:
-        raise ValueError("The number of attempts cannot exceed the maximum amount attempts (10).")
-
-
-class Board(object):
-    def __init__(self, code_length=None, attempts=None):
-        exception_handler_code_length(code_length)
-        exception_handler_attempts(attempts)
-        self.code_length = code_length
+class Board:
+    def __init__(self, code_max_length, max_attempts, attempts=0, guessed_code=0, answer_code=0, feedback=0):
+        self.code_max_length = code_max_length
+        self.max_attempts = max_attempts
         self.attempts = attempts
+        self.guessed_code = guessed_code
+        self.answer_code = answer_code
+        self.feedback = feedback
+
 
     @property
-    def code_length(self):
-        return self._code_length
+    def guessed_code(self):
+        return self._guessed_code
 
-    @code_length.setter
-    def code_length(self, code_length):
-        exception_handler_code_length(code_length)
-        self._code_length = code_length
+    @guessed_code.setter
+    def guessed_code(self, values):
+        if len(values) > self.code_max_length < len(values):
+            raise ValueError("Code nicht in den richtigen Länge")
+        stones = []
+        for value in values:
+            try:
+                stones.append(self.create_stone(value))
+            except ValueError:
+                raise ValueError("Code enthält ungültige Farben")
+        self._guessed_code = stones
 
     @property
     def attempts(self):
@@ -38,5 +33,10 @@ class Board(object):
 
     @attempts.setter
     def attempts(self, attempts):
-        exception_handler_attempts(attempts)
         self._attempts = attempts
+
+    def create_stone(self, value):
+        if not isinstance(value, Stone):
+            return Stone(value)
+        else:
+            return value
