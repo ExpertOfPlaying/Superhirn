@@ -22,41 +22,13 @@ class TestStoneClass(unittest.TestCase):
         with self.assertRaises(ValueError) as exception:
             stone = Stone(-1)
 
-    #
     # # ---------------------------------------------------get_colour---------------------------------------
-    #
-    # def test_get_colour(self):
-    #     self.assertEqual(self.stones.get_colour(1), Colour.RED)
-    #
-    # def test_get_colour_exception_over(self):
-    #     with self.assertRaises(ValueError) as exception:
-    #         self.stones.get_colour(8)
-    #     exception_message = exception.exception
-    #     print(exception_message)
-    #
-    # def test_get_colour_exception_under(self):
-    #     with self.assertRaises(ValueError) as exception:
-    #         self.stones.get_colour(0)
-    #     exception_message = exception.exception
-    #     print(exception_message)
-    #
-    # def test_get_colour_exception_not_int(self):
-    #     with self.assertRaises(ValueError) as exception:
-    #         self.stones.get_colour("b")
-    #     exception_message = exception.exception
-    #     print(exception_message)
-    #
-    # def test_get_colour_exception_empty(self):
-    #     with self.assertRaises(ValueError) as exception:
-    #         self.stones.get_colour()
-    #     exception_message = exception.exception
-    #     print(exception_message)
-    #
-    # def test_get_colour_exception_none(self):
-    #     with self.assertRaises(ValueError) as exception:
-    #         self.stones.get_colour(None)
-    #     exception_message = exception.exception
-    #     print(exception_message)
+
+    def test_get_correct_colour(self):
+        stone = Stone (Colour.RED)
+        self.assertEqual(stone.colour, Colour.RED)
+        self.assertEqual(stone.colour.value, Colour.RED.value)
+        self.assertNotEquals(stone.colour, Colour.GREEN)
 
 
 if __name__ == '__main__':
