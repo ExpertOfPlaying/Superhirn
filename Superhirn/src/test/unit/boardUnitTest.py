@@ -2,11 +2,12 @@ import unittest
 from unittest.mock import MagicMock
 from src.main.python.entities.boardComponent.board import Board
 
+
 class TestBoardClass(unittest.TestCase):
 
     def create_board_with_correct_parameters(self):
-        board = Board()
-        assert isinstance(board, Board)
+        board = Board(5, 5)
+        self.assertTrue(isinstance(board, Board))
 
     def make_new_valid_guess_as_int_array(self):
         pass
@@ -25,6 +26,7 @@ class TestBoardClass(unittest.TestCase):
 
     def define_invalid_answer_code_as_string(self):
         pass
+
 
 if __name__ == '__main__':
     unittest.main()
