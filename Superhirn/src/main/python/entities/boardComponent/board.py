@@ -2,28 +2,24 @@ from src.main.python.entities.stoneComponent.stone import Stone
 
 
 # static methods
-def create_stone(value):
-    if not isinstance(value, Stone):
-        return Stone(value)
-    else:
-        return value
-
-def create_feedback(value):
-    if not isinstance(value, Stone):
-        return Stone(value)
-    else:
-        return value
+def create_board_stone_array(values):
+    board_stones = []
+    for value in values:
+        board_stones.append(Stone(value))
+    return board_stones
 
 
 class Board:
-    def __init__(self, code_max_length, max_attempts, attempts=0, guessed_code=0, answer_code=0, feedback=0):
-        self.code_max_length = code_max_length
-        self.max_attempts = max_attempts
-        self.attempts = attempts
-        self.guessed_code = guessed_code
-        self.answer_code = answer_code
-        self.feedback = feedback
-
+    def __init__(self, code_max_length, attempt_counter, guessed_code, code, feedback, game_mode):
+        self.__code_max_length = code_max_length
+        self._max_attempts = 10
+        self._attempt_counter = attempt_counter
+        self._guessed_code = guessed_code
+        self._guessed_code_list = []
+        self._code = code
+        self._feedback = feedback
+        self._feedback_list = []
+        self._game_mode = game_mode
 
     @property
     def code_max_length(self):
@@ -42,14 +38,12 @@ class Board:
         self._max_attempts = value
 
     @property
-    def attempts(self):
-        return self._attempts
+    def attempt_counter(self):
+        return self._attempt_counter
 
-    @attempts.setter
-    def attempts(self, value):
-        if value > self.max_attempts:
-            raise ValueError("Maximale Anzahl an Versuchen erreicht")
-        self._attempts = value
+    @attempt_counter.setter
+    def attempt_counter(self, value):
+        self._attempt_counter = value
 
     @property
     def guessed_code(self):
@@ -57,29 +51,22 @@ class Board:
 
     @guessed_code.setter
     def guessed_code(self, values):
-        self.check_code_length(values)
-        stones = []
-        for value in values:
-            try:
-                stones.append(create_stone(value))
-            except ValueError:
-                raise ValueError("Code enthält ungültige Farben")
-        self._guessed_code = stones
+        self._guessed_code = create_board_stone_array(values)
 
     @property
-    def answer_code(self):
-        return self._answer_code
+    def guessed_code_list(self):
+        return self._guessed_code_list
 
-    @answer_code.setter
-    def answer_code(self, values):
-        self.check_code_length(values)
-        stones = []
-        for value in values:
-            try:
-                stones.append(create_stone(value))
-            except ValueError:
-                raise ValueError("Code enthält ungültige Farben")
-        self._guessed_code = stones
+    def add_guessed_code_list(self, guessed_code):
+        self._guessed_code_list.append(guessed_code)
+
+    @property
+    def code(self):
+        return self._code
+
+    @code.setter
+    def code(self, values):
+        self._code = create_board_stone_array(values)
 
     @property
     def feedback(self):
@@ -87,9 +74,15 @@ class Board:
 
     @feedback.setter
     def feedback(self, values):
-        self.check_code_length(values)
-        self._feedback =
+        self._feedback = create_board_stone_array(values)
 
-    def check_code_length(self, code):
-        if len(code) > self.code_max_length < len(code):
-            raise ValueError("Code nicht in den richtigen Länge")
+    @property
+    def game_mode(self):
+        return self._game_mode
+
+    @property
+    def feedback_list(self):
+        return self._feedback_list
+
+    def add_feedback_list(self, feedback):
+        self._feedback_list.append(feedback)
