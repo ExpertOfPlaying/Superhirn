@@ -11,7 +11,7 @@ def create_board_stone_array(values):
 
 class Board:
     def __init__(self, code_max_length, attempt_counter, guessed_code, code, feedback, game_mode):
-        self.__code_max_length = code_max_length
+        self._code_max_length = code_max_length
         self._max_attempts = 10
         self._attempt_counter = attempt_counter
         self._guessed_code = guessed_code
@@ -25,14 +25,11 @@ class Board:
     def code_max_length(self):
         return self._code_max_length
 
-    @code_max_length.setter
-    def code_max_length(self, value):
-        self._code_max_length = value
-
     @property
     def max_attempts(self):
         return self._max_attempts
 
+    # für später falls im lokalen Spiel max_attempts geändert werden sollte
     @max_attempts.setter
     def max_attempts(self, value):
         self._max_attempts = value
@@ -57,8 +54,8 @@ class Board:
     def guessed_code_list(self):
         return self._guessed_code_list
 
-    def add_guessed_code_list(self, guessed_code):
-        self._guessed_code_list.append(guessed_code)
+    def add_guessed_code_list(self):
+        self._guessed_code_list.append(self.guessed_code)
 
     @property
     def code(self):
