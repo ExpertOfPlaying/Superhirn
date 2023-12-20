@@ -39,44 +39,64 @@ class TestBoardClass(unittest.TestCase):
         self.assertEqual(self.board.attempt_counter, 10)
 
     def test_set_guessed_code(self):
-        userinput = "12345"
-        self.board.guessed_code = [int(num) for num in userinput]
+        user_input1 = "12345"
+        self.board.guessed_code = [int(num) for num in user_input1]
         value_list = []
         for stone in self.board.guessed_code:
             value_list.append(stone.colour)
         board_stone = [Stone(1).colour, Stone(2).colour, Stone(3).colour, Stone(4).colour, Stone(5).colour]
-        self.assertEqual(value_list, board_stone)
+        self.assertEqual(board_stone, value_list)
 
     def test_get_guessed_code_list(self):
         self.assertEqual(self.board.guessed_code_list, [])
 
-    def test_set_guessed_code_list(self):
-        userinput1 = "12345"
-        self.board.guessed_code1 = [int(num) for num in userinput1]
+    def test_add_guessed_code_list(self):
+        user_input1 = "12345"
+        self.board.guessed_code = [int(num) for num in user_input1]
         self.board.add_guessed_code_list()
-        userinput2 = "54321"
-        self.board.guessed_code2 = [int(num) for num in userinput2]
+        user_input2 = "54321"
+        self.board.guessed_code = [int(num) for num in user_input2]
         self.board.add_guessed_code_list()
+        self.assertEqual(len(self.board.guessed_code_list), 2)
 
+    def test_get_code(self):
+        self.assertEqual(self.board.code, [])
 
+    def test_set_code(self):
+        user_input = "12345"
+        self.board.code = [int(num) for num in user_input]
+        value_list = []
+        for stone in self.board.code:
+            value_list.append(stone.colour)
+        board_stone = [Stone(1).colour, Stone(2).colour, Stone(3).colour, Stone(4).colour, Stone(5).colour]
+        self.assertEqual(board_stone, value_list)
 
-    def make_new_valid_guess_as_int_array(self):
-        pass
+    def test_get_feedback(self):
+        self.assertEqual(self.board.feedback, [])
 
-    def make_new_invalid_guess_as_int_array(self):
-        pass
+    def test_set_feedback(self):
+        user_input = "12345"
+        self.board.feedback = [int(num) for num in user_input]
+        value_list = []
+        for stone in self.board.feedback:
+            value_list.append(stone.colour)
+        board_stone = [Stone(1).colour, Stone(2).colour, Stone(3).colour, Stone(4).colour, Stone(5).colour]
+        self.assertEqual(board_stone, value_list)
 
-    def make_new_valid_guess_as_stone_array(self):
-        pass
+    def test_get_game_mode(self):
+        self.assertEqual(self.board.game_mode, "")
 
-    def make_new_invalid_guess_as_stone_array(self):
-        pass
+    def test_feedback_list(self):
+        self.assertEqual(self.board.feedback_list, [])
 
-    def define_valid_answer_code_as_string(self):
-        pass
-
-    def define_invalid_answer_code_as_string(self):
-        pass
+    def test_set_feedback_list(self):
+        user_input1 = "12345"
+        self.board.feedback = [int(num) for num in user_input1]
+        self.board.add_feedback_list()
+        user_input2 = "54321"
+        self.board.feedback = [int(num) for num in user_input2]
+        self.board.add_feedback_list()
+        self.assertEqual(2, len(self.board.feedback_list))
 
 
 if __name__ == '__main__':

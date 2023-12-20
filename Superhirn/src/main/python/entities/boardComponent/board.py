@@ -81,5 +81,5 @@ class Board:
     def feedback_list(self):
         return self._feedback_list
 
-    def add_feedback_list(self, feedback):
-        self._feedback_list.append(feedback)
+    def add_feedback_list(self):
+        self._feedback_list.append(self.feedback)
