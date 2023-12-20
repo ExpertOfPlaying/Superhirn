@@ -10,8 +10,9 @@ def create_board_stone_array(values):
 
 
 class Board:
-    def __init__(self, code_max_length, attempt_counter, guessed_code, code, feedback, game_mode):
+    def __init__(self, code_max_length, max_colour, attempt_counter, guessed_code, code, feedback, game_mode):
         self._code_max_length = code_max_length
+        self._max_colour = max_colour
         self._max_attempts = 10
         self._attempt_counter = attempt_counter
         self._guessed_code = guessed_code
@@ -24,6 +25,10 @@ class Board:
     @property
     def code_max_length(self):
         return self._code_max_length
+
+    @property
+    def max_colour(self):
+        return self._max_colour
 
     @property
     def max_attempts(self):

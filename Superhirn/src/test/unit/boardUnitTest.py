@@ -5,7 +5,7 @@ from src.main.python.entities.stoneComponent.stone import Stone
 
 class TestBoardClass(unittest.TestCase):
     def setUp(self):
-        self.board = Board(5, 0, [], [], [], "")
+        self.board = Board(5, 5, 0, [], [], [], "")
         self.user_input1 = "12345"
         self.user_input2 = "54321"
         self.code_array1 = [int(num) for num in self.user_input1]
@@ -17,6 +17,9 @@ class TestBoardClass(unittest.TestCase):
         self.assertTrue(isinstance(self.board, Board))
 
     def test_create_board_with_correct_code_max_length(self):
+        self.assertEqual(self.board.code_max_length, 5)
+
+    def test_create_board_with_correct_max_colour(self):
         self.assertEqual(self.board.code_max_length, 5)
 
     def test_create_board_with_correct_attempt_counter(self):

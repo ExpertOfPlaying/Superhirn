@@ -11,5 +11,4 @@ class Stone:
 
     @colour.setter
     def colour(self, value):
-
         self._colour = Colour(value)
