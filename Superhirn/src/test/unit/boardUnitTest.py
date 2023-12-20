@@ -1,13 +1,17 @@
 import unittest
-from unittest.mock import MagicMock
 from src.main.python.entities.boardComponent.board import Board
 from src.main.python.entities.stoneComponent.stone import Stone
-from numpy.testing import assert_array_equal
 
 
 class TestBoardClass(unittest.TestCase):
     def setUp(self):
         self.board = Board(5, 0, [], [], [], "")
+        self.user_input1 = "12345"
+        self.user_input2 = "54321"
+        self.code_array1 = [int(num) for num in self.user_input1]
+        self.code_array2 = [int(num) for num in self.user_input2]
+        self.value_list = []
+        self.board_stone = [Stone(1).colour, Stone(2).colour, Stone(3).colour, Stone(4).colour, Stone(5).colour]
 
     def test_create_board(self):
         self.assertTrue(isinstance(self.board, Board))
@@ -39,23 +43,18 @@ class TestBoardClass(unittest.TestCase):
         self.assertEqual(self.board.attempt_counter, 10)
 
     def test_set_guessed_code(self):
-        user_input1 = "12345"
-        self.board.guessed_code = [int(num) for num in user_input1]
-        value_list = []
+        self.board.guessed_code = self.code_array1
         for stone in self.board.guessed_code:
-            value_list.append(stone.colour)
-        board_stone = [Stone(1).colour, Stone(2).colour, Stone(3).colour, Stone(4).colour, Stone(5).colour]
-        self.assertEqual(board_stone, value_list)
+            self.value_list.append(stone.colour)
+        self.assertEqual(self.board_stone, self.value_list)
 
     def test_get_guessed_code_list(self):
         self.assertEqual(self.board.guessed_code_list, [])
 
     def test_add_guessed_code_list(self):
-        user_input1 = "12345"
-        self.board.guessed_code = [int(num) for num in user_input1]
+        self.board.guessed_code = self.code_array1
         self.board.add_guessed_code_list()
-        user_input2 = "54321"
-        self.board.guessed_code = [int(num) for num in user_input2]
+        self.board.guessed_code = self.code_array2
         self.board.add_guessed_code_list()
         self.assertEqual(len(self.board.guessed_code_list), 2)
 
@@ -63,25 +62,19 @@ class TestBoardClass(unittest.TestCase):
         self.assertEqual(self.board.code, [])
 
     def test_set_code(self):
-        user_input = "12345"
-        self.board.code = [int(num) for num in user_input]
-        value_list = []
+        self.board.code = self.code_array1
         for stone in self.board.code:
-            value_list.append(stone.colour)
-        board_stone = [Stone(1).colour, Stone(2).colour, Stone(3).colour, Stone(4).colour, Stone(5).colour]
-        self.assertEqual(board_stone, value_list)
+            self.value_list.append(stone.colour)
+        self.assertEqual(self.board_stone, self.value_list)
 
     def test_get_feedback(self):
         self.assertEqual(self.board.feedback, [])
 
     def test_set_feedback(self):
-        user_input = "12345"
-        self.board.feedback = [int(num) for num in user_input]
-        value_list = []
+        self.board.feedback = self.code_array1
         for stone in self.board.feedback:
-            value_list.append(stone.colour)
-        board_stone = [Stone(1).colour, Stone(2).colour, Stone(3).colour, Stone(4).colour, Stone(5).colour]
-        self.assertEqual(board_stone, value_list)
+            self.value_list.append(stone.colour)
+        self.assertEqual(self.board_stone, self.value_list)
 
     def test_get_game_mode(self):
         self.assertEqual(self.board.game_mode, "")
@@ -90,11 +83,9 @@ class TestBoardClass(unittest.TestCase):
         self.assertEqual(self.board.feedback_list, [])
 
     def test_set_feedback_list(self):
-        user_input1 = "12345"
-        self.board.feedback = [int(num) for num in user_input1]
+        self.board.feedback = self.code_array1
         self.board.add_feedback_list()
-        user_input2 = "54321"
-        self.board.feedback = [int(num) for num in user_input2]
+        self.board.feedback = self.code_array2
         self.board.add_feedback_list()
         self.assertEqual(2, len(self.board.feedback_list))
 

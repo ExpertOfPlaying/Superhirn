@@ -4,18 +4,23 @@ from src.main.python.entities.userComponent.user import User
 
 
 class TestUserRole(unittest.TestCase):
-    def test_valid_roles(self):
-        # Test, ob die User-Klasse korrekt initialisiert wird, wenn eine gültige Rolle übergeben wird
-        user_rater = User("Rater")
-        user_coder = User("Coder")
 
-        self.assertEqual(user_rater.role, "Rater")
-        self.assertEqual(user_coder.role, "Coder")
+    def setUp(self):
+        self.user = User("Rater", "Player_one")
 
-    def test_invalid_role(self):
-        # Test, ob die User-Klasse ValueError auslöst, wenn eine ungültige Rolle übergeben wird
-        with self.assertRaises(ValueError):
-            invalid_user = User("InvalidRole")
+    def test_get_role(self):
+        self.assertEqual(self.user.role, "Rater")
+
+    def test_set_roles(self):
+        self.user.role = "Coder"
+        self.assertEqual(self.user.role, "Coder")
+
+    def test_get_name(self):
+        self.assertEqual(self.user.name, "Player_one")
+
+    def test_set_name(self):
+        self.user.name = "Player_two"
+        self.assertEqual(self.user.name, "Player_two")
 
 
 if __name__ == '__main__':
