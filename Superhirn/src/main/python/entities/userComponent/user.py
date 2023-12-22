@@ -1,3 +1,6 @@
+from .roleEnum import Role
+
+
 class User:
     def __init__(self, role, name):
         self._role = role
@@ -5,11 +8,11 @@ class User:
 
     @property
     def role(self):
-        return self._role
+        return Role(self._role)
 
     @role.setter
     def role(self, role):
-        self._role = role
+        self._role = Role(role)
 
     @property
     def name(self):

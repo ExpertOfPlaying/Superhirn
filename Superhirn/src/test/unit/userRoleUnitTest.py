@@ -1,26 +1,30 @@
 import unittest
 
 from src.main.python.entities.userComponent.user import User
+from src.main.python.entities.userComponent.roleEnum import Role
 
 
 class TestUserRole(unittest.TestCase):
 
     def setUp(self):
-        self.user = User("Rater", "Player_one")
+        self.coder = 1
+        self.guesser = 2
+        self.userGuesser = User(self.guesser, "Player_two")
+        self.userCoder = User(self.coder, "Player_one")
 
     def test_get_role(self):
-        self.assertEqual(self.user.role, "Rater")
+        self.assertEqual(self.userGuesser.role, Role.Rater)
 
     def test_set_roles(self):
-        self.user.role = "Coder"
-        self.assertEqual(self.user.role, "Coder")
+        self.userGuesser.role = 1
+        self.assertEqual(self.userGuesser.role, Role.Coder)
 
     def test_get_name(self):
-        self.assertEqual(self.user.name, "Player_one")
+        self.assertEqual(self.userCoder.name, "Player_one")
 
     def test_set_name(self):
-        self.user.name = "Player_two"
-        self.assertEqual(self.user.name, "Player_two")
+        self.userCoder.name = "Player_two"
+        self.assertEqual(self.userCoder.name, "Player_two")
 
 
 if __name__ == '__main__':

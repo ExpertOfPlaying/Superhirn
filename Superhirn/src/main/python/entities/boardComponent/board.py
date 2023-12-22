@@ -24,24 +24,24 @@ class Board:
 
     @property
     def code_max_length(self):
-        return self._code_max_length
+        return int(self._code_max_length)
 
     @property
     def max_colour(self):
-        return self._max_colour
+        return int(self._max_colour)
 
     @property
     def max_attempts(self):
-        return self._max_attempts
+        return int(self._max_attempts)
 
-    # für später falls im lokalen Spiel max_attempts geändert werden sollte
+    # für später, falls im lokalen Spiel max_attempts geändert werden sollte
     @max_attempts.setter
     def max_attempts(self, value):
         self._max_attempts = value
 
     @property
     def attempt_counter(self):
-        return self._attempt_counter
+        return int(self._attempt_counter)
 
     @attempt_counter.setter
     def attempt_counter(self, value):
@@ -80,7 +80,7 @@ class Board:
 
     @property
     def game_mode(self):
-        return self._game_mode
+        return int(self._game_mode)
 
     @property
     def feedback_list(self):

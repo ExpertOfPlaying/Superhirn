@@ -13,41 +13,55 @@ def check_stone_input(input_string, min_number, max_number):
         raise ValidationError(f"Input must be integers between {min_number} and {max_number}!")
 
 
-def check_code_input(input_string, actual_board, max_number):  # coder gibt ein 12345 oder 1234
-    if len(input_string) == actual_board.code_max_length:
-        check_stone_input(input_string, 2, max_number)
+# Validation for code length and whether the stones are in the set intervall or whether the entered value is a digit
+def check_code_input(input_string, code_max_length, max_number):
+    if len(input_string) == code_max_length:
+        return check_stone_input(input_string, 1, int(max_number))
     else:
-        raise ValidationError(f"Input must be equal to {actual_board.code_max_length}!")
+        raise ValidationError(f"Input must be equal to {code_max_length}!")
 
 
-def check_feedback_input(input_string, actual_board):
-    if len(input_string) <= actual_board.code_max_length or len(input_string) > 0:
+def check_feedback_input(input_string, code_max_length):
+    if code_max_length >= len(input_string) > 0:
         if input_string == "":
             return True
         else:
-            check_stone_input(input_string, 7, 8)
+            return check_stone_input(input_string, 7, 8)
     else:
-        raise ValidationError(f"Input must be equal or less to {actual_board.code_max_length}!")
+        raise ValidationError(f"Input must be equal or less to {code_max_length}!")
 
 
-def check_max_code_length_input():
-    pass
+def set_digit_range(value, min_value, max_value):
+    if value.isdigit():
+        if min_value <= int(value) <= max_value:
+            return True
+        else:
+            raise ValidationError(f"Input must be an integer between {min_value} or {max_value}!")
+    else:
+        raise ValidationError(f"Input must be an integer between {min_value} or {max_value}!")
 
 
-def check_game_mode_input():
-    pass
+def check_max_code_length_input(code_max_length):
+    return set_digit_range(code_max_length, 4, 5)
 
 
-def check_max_colour_input():
-    pass
+def check_game_mode_input(game_mode):
+    return set_digit_range(game_mode, 1, 2)
 
 
-class RuleBook:
-    def __init__(self, secret_code):
-        self.secret_code = secret_code
+def check_max_colour_input(max_colour):
+    return set_digit_range(max_colour, 2, 8)
 
-    def check_win(self, guess):
-        pass
 
-    def check_feedback(self, guess):
-        pass
+def check_win(guess, code):
+    if guess == code:
+        return True
+    else:
+        return False
+
+
+def check_lose(max_counter):
+    if max_counter > 10:
+        return True
+    else:
+        return False
