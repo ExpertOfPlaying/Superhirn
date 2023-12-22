@@ -1,16 +1,16 @@
-from validationError import ValidationError
+from .validationError import ValidationError
 
 
+# Validation for whether the stones are in the set intervall or whether the entered value is a digit
 def check_stone_input(input_string, min_number, max_number):
     if input_string.isdigit():
         stones = [int(num) for num in input_string]
         for stone in stones:
-            if stone < min_number or stone > max_number:
-                raise ValidationError("Input must be integers between 2 and 8!")
-            else:
-                return True
+            if stone < int(min_number) or stone > int(max_number):
+                raise ValidationError(f"Input must be integers between {min_number} and {max_number}!")
+        return True
     else:
-        raise ValidationError("Input must be integers between 2 and 8!")
+        raise ValidationError(f"Input must be integers between {min_number} and {max_number}!")
 
 
 def check_code_input(input_string, actual_board, max_number):  # coder gibt ein 12345 oder 1234
@@ -30,7 +30,7 @@ def check_feedback_input(input_string, actual_board):
         raise ValidationError(f"Input must be equal or less to {actual_board.code_max_length}!")
 
 
-def check_code_max_length_input():
+def check_max_code_length_input():
     pass
 
 

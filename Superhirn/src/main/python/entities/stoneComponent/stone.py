@@ -1,4 +1,4 @@
-from src.main.python.entities.stoneComponent.colourEnum import Colour
+from .colourEnum import Colour
 
 
 class Stone:
