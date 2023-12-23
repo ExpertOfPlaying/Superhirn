@@ -164,67 +164,67 @@ class TestValidatorClass(unittest.TestCase):
         print(exception_message)
 
     def test_check_max_code_length_input_good(self):
-        self.assertTrue(check_max_code_length_input(self.good_max_code_length_input_string))
+        self.assertTrue(self.validator_rater.check_max_code_length_input(self.good_max_code_length_input_string))
 
     def test_check_max_code_length_input_bad_high(self):
         with self.assertRaises(ValidationError) as exception:
-            check_max_code_length_input(self.bad_high_max_code_length_input_string)
+            self.validator_rater.check_max_code_length_input(self.bad_high_max_code_length_input_string)
         exception_message = exception.exception
         print(exception_message)
 
     def test_check_max_code_length_input_bad_low(self):
         with self.assertRaises(ValidationError) as exception:
-            check_max_code_length_input(self.bad_low_max_code_length_input_string)
+            self.validator_rater.check_max_code_length_input(self.bad_low_max_code_length_input_string)
         exception_message = exception.exception
         print(exception_message)
 
     def test_check_max_code_length_input_bad_char(self):
         with self.assertRaises(ValidationError) as exception:
-            check_max_code_length_input(self.bad_char_code_length_input_string)
+            self.validator_rater.check_max_code_length_input(self.bad_char_code_length_input_string)
         exception_message = exception.exception
         print(exception_message)
 
     # check_game_mode
     def test_check_game_mode_input_good(self):
-        self.assertTrue(check_game_mode_input(self.good_game_mode_coder))
+        self.assertTrue(self.validator_rater.check_game_mode_input(self.good_game_mode_coder))
 
     def test_check_game_mode_input_bad_singular(self):
         with self.assertRaises(ValidationError) as exception:
-            check_game_mode_input(self.bad_singular_game_mode_input)
+            self.validator_rater.check_game_mode_input(self.bad_singular_game_mode_input)
         exception_message = exception.exception
         print(exception_message)
 
     def test_check_game_mode_input_bad_multiple(self):
         with self.assertRaises(ValidationError) as exception:
-            check_game_mode_input(self.bad_multiple_game_mode_input)
+            self.validator_rater.check_game_mode_input(self.bad_multiple_game_mode_input)
         exception_message = exception.exception
         print(exception_message)
 
     def test_check_game_mode_input_bad_char(self):
         with self.assertRaises(ValidationError) as exception:
-            check_max_code_length_input(self.bad_char_game_mode_input)
+            self.validator_rater.check_max_code_length_input(self.bad_char_game_mode_input)
         exception_message = exception.exception
         print(exception_message)
 
     # check_max_colour_input
     def test_check_max_colour_input_good(self):
-        self.assertTrue(check_max_colour_input(self.good_max_code_colours))
+        self.assertTrue(self.validator_rater.check_max_colour_input(self.good_max_code_colours))
 
     def test_check_max_colour_input_bad_high(self):
         with self.assertRaises(ValidationError) as exception:
-            check_max_colour_input(self.bad_max_high_code_colours)
+            self.validator_rater.check_max_colour_input(self.bad_max_high_code_colours)
         exception_message = exception.exception
         print(exception_message)
 
     def test_check_max_colour_input_bad_low(self):
         with self.assertRaises(ValidationError) as exception:
-            check_max_colour_input(self.bad_max_low_code_colours)
+            self.validator_rater.check_max_colour_input(self.bad_max_low_code_colours)
         exception_message = exception.exception
         print(exception_message)
 
     def test_check_max_colour_input_bad_char(self):
         with self.assertRaises(ValidationError) as exception:
-            check_max_colour_input(self.bad_char_code_colours)
+            self.validator_rater.check_max_colour_input(self.bad_char_code_colours)
         exception_message = exception.exception
         print(exception_message)
 
