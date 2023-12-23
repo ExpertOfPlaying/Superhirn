@@ -12,7 +12,7 @@ class User:
 
     @role.setter
     def role(self, role):
-        self._role = Role(role)
+        self._role = Role(int(role))
 
     @property
     def name(self):

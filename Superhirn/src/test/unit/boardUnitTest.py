@@ -5,7 +5,7 @@ from src.main.python.entities.stoneComponent.stone import Stone
 
 class TestBoardClass(unittest.TestCase):
     def setUp(self):
-        self.board = Board(5, 5, 0, [], [], [], "")
+        self.board = Board(5, 5, 0, [], [], [], 0)
         self.user_input1 = "12345"
         self.user_input2 = "54321"
         self.code_array1 = [int(num) for num in self.user_input1]
@@ -20,7 +20,7 @@ class TestBoardClass(unittest.TestCase):
         self.assertEqual(self.board.code_max_length, 5)
 
     def test_create_board_with_correct_max_colour(self):
-        self.assertEqual(self.board.code_max_length, 5)
+        self.assertEqual(self.board.max_colour, 5)
 
     def test_create_board_with_correct_attempt_counter(self):
         self.assertEqual(self.board.attempt_counter, 0)
@@ -34,8 +34,8 @@ class TestBoardClass(unittest.TestCase):
     def test_create_board_with_correct_feedback(self):
         self.assertEqual(self.board.feedback, [])
 
-    def test_create_board_with_correct_game_mode(self):
-        self.assertEqual(self.board.game_mode, "")
+    def test_get_game_mode(self):
+        self.assertEqual(self.board.game_mode, 0)
 
     def test_set_max_attempt(self):
         self.board.max_attempt = 20
@@ -61,26 +61,17 @@ class TestBoardClass(unittest.TestCase):
         self.board.add_guessed_code_list()
         self.assertEqual(len(self.board.guessed_code_list), 2)
 
-    def test_get_code(self):
-        self.assertEqual(self.board.code, [])
-
     def test_set_code(self):
         self.board.code = self.code_array1
         for stone in self.board.code:
             self.value_list.append(stone.colour)
         self.assertEqual(self.board_stone, self.value_list)
 
-    def test_get_feedback(self):
-        self.assertEqual(self.board.feedback, [])
-
     def test_set_feedback(self):
         self.board.feedback = self.code_array1
         for stone in self.board.feedback:
             self.value_list.append(stone.colour)
         self.assertEqual(self.board_stone, self.value_list)
-
-    def test_get_game_mode(self):
-        self.assertEqual(self.board.game_mode, "")
 
     def test_feedback_list(self):
         self.assertEqual(self.board.feedback_list, [])

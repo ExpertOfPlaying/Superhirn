@@ -1,6 +1,2 @@
-class Rater(object):
-    def __init__(self):
-        pass
-
-    def add_guess(self):
-        pass
+def guesser_game(user, board):
+    print("Bin im Rater")

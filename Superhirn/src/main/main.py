@@ -1,4 +1,4 @@
-from src.main.python.businesslogic.roleComponent.role import *
+from src.main.python.businesslogic.roleComponent.menu import *
 from src.main.python.entities.userComponent import roleEnum
 
 
