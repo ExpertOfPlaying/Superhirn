@@ -7,7 +7,7 @@ class Stone:
 
     @property
     def colour(self):
-        return Colour(self._colour)
+        return Colour(int(self._colour))
 
     @colour.setter
     def colour(self, value):

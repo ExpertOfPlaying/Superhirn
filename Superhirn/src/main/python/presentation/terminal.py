@@ -54,6 +54,11 @@ class TerminalView:
         print(message)
 
     @staticmethod
+    def view_provide_feedback():
+        message = f"Please provide a feedback"
+        print(message)
+
+    @staticmethod
     def view_win():
         message = f"You have won!"
         print(message)

@@ -1,6 +1,6 @@
 from src.main.python.entities.userComponent.user import User
 from src.main.python.entities.boardComponent.board import Board
-from .coder import coder_game
+# from .coder import coder_game
 from .rater import guesser_game
 
 
@@ -78,4 +78,28 @@ class Menu:
         if self.guesser:
             guesser_game(user, board)
         if self.coder:
-            coder_game(user, board)
+            self.coder_game(user, board)
+
+    def coder_game(self, user, board):
+        self.terminal.view_provide_code()
+        code = False
+        while not code:
+            try:
+                board.code = input()
+                code = self.validator.check_code_input(board.code, board.code_max_length, board.max_colour)
+            except self.validator.validationError as error:
+                print(error)
+
+        end = False
+        while not end:
+            try:
+                # npc(user.role, board.code)
+                self.terminal.view_provide_feedback()
+                board.feedback = input()
+                self.validator.check_feedback_input(board.feedback, board.code_max_length)
+                board.attempt_counter = board.attempt_counter + 1
+                if board.attempt_counter == board.max_attempts:
+                    self.terminal.view_win()
+                    end = True
+            except self.validator.validationError as error:
+                print(error)

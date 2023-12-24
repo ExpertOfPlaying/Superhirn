@@ -3,10 +3,9 @@ from src.main.python.entities.stoneComponent.stone import Stone
 
 # static methods
 def create_board_stone_array(values):
-    board_stones = []
-    for value in values:
-        board_stones.append(Stone(value))
-    return board_stones
+    board_stones = [Stone(value) for value in values]
+    board_stones_values = [stone.colour.value for stone in board_stones]
+    return board_stones_values
 
 
 class Board:
