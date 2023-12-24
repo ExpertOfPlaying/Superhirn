@@ -10,30 +10,29 @@ class Validator:
         return self._validationError
 
     # Validation for whether the stones are in the set intervall or whether the entered value is a digit
-    def check_stone_input(self, input_array, min_number, max_number):
-        for element in input_array:
-            if not str(element).isdigit():
+    def check_stone_input(self, input_strings, min_number, max_number):
+        for element in input_strings:
+            if not element.isdigit():
                 raise self._validationError(f"Input must be integers between {min_number} and {max_number}!")
 
-            stone = int(element)
-            if stone < int(min_number) or stone > int(max_number):
+            if int(element) < int(min_number) or int(element) > int(max_number):
                 raise self._validationError(f"Input must be integers between {min_number} and {max_number}!")
 
         return True
 
     # Validation for code length and whether the stones are in the set intervall or whether the entered value is a digit
-    def check_code_input(self, input_array, code_max_length, max_number):
-        if len(input_array) == code_max_length:
-            return self.check_stone_input(input_array, self._ruleBook().min_check_code, int(max_number))
+    def check_code_input(self, input_strings, code_max_length, max_number):
+        if len(input_strings) == code_max_length:
+            return self.check_stone_input(input_strings, self._ruleBook().min_check_code, int(max_number))
         else:
             raise self._validationError(f"Input must be equal to {code_max_length}!")
 
-    def check_feedback_input(self, input_array, code_max_length):
-        if code_max_length >= len(input_array) >= 0:
-            if not input_array:
+    def check_feedback_input(self, input_strings, code_max_length):
+        if code_max_length >= len(input_strings) >= 0:
+            if not input_strings:
                 return True
             else:
-                return self.check_stone_input(input_array, self._ruleBook().min_feedback_colour,
+                return self.check_stone_input(input_strings, self._ruleBook().min_feedback_colour,
                                               self._ruleBook().max_feedback_colour)
         else:
             raise self._validationError(f"Input must be equal or less to {code_max_length}!")

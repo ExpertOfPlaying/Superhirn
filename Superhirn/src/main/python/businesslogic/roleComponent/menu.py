@@ -85,8 +85,9 @@ class Menu:
         code = False
         while not code:
             try:
-                board.code = input()
-                code = self.validator.check_code_input(board.code, board.code_max_length, board.max_colour)
+                code_input = input()
+                code = self.validator.check_code_input(code_input, board.code_max_length, board.max_colour)
+                board.code = code_input
             except self.validator.validationError as error:
                 print(error)
 
@@ -95,8 +96,10 @@ class Menu:
             try:
                 # npc(user.role, board.code)
                 self.terminal.view_provide_feedback()
-                board.feedback = input()
-                self.validator.check_feedback_input(board.feedback, board.code_max_length)
+                feedback_input = input()
+                self.validator.check_feedback_input(feedback_input, board.code_max_length)
+                board.feedback = feedback_input
+                self.terminal.view_draw(board.feedback_list, "Feedback")
                 board.attempt_counter = board.attempt_counter + 1
                 if board.attempt_counter == board.max_attempts:
                     self.terminal.view_win()

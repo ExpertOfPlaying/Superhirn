@@ -4,8 +4,7 @@ from src.main.python.entities.stoneComponent.stone import Stone
 # static methods
 def create_board_stone_array(values):
     board_stones = [Stone(value) for value in values]
-    board_stones_values = [stone.colour.value for stone in board_stones]
-    return board_stones_values
+    return board_stones
 
 
 class Board:
@@ -76,6 +75,7 @@ class Board:
     @feedback.setter
     def feedback(self, values):
         self._feedback = create_board_stone_array(values)
+        self._feedback_list.append(self._feedback)
 
     @property
     def game_mode(self):
@@ -85,5 +85,13 @@ class Board:
     def feedback_list(self):
         return self._feedback_list
 
-    def add_feedback_list(self):
-        self._feedback_list.append(self.feedback)
+    @staticmethod
+    def convert_stone_array_to_colour(code_array):
+        # Check if code_array is a list of lists
+        if all(isinstance(inner_array, list) for inner_array in code_array):
+            colour_array = [[stone.colour for stone in inner_array] for inner_array in code_array]
+        else:
+            # If code_array is a single list, convert it to a list of lists
+            colour_array = [stone.colour for stone in code_array]
+
+        return colour_array

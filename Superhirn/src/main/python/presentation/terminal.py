@@ -2,6 +2,25 @@ import os
 from src.main.python.entities.ruleBookComponent.ruleBook import *
 
 
+def background_colour(colour_value):
+    if colour_value == 1:  # rot
+        return "\x1b[41m\x1b[30m"  # Red background, black text
+    elif colour_value == 2:  # grün
+        return "\x1b[42m\x1b[30m"  # Green background, black text
+    elif colour_value == 3:
+        return "\x1b[44m\x1b[37m"  # Blue background, white text
+    elif colour_value == 4:
+        return "\x1b[43m\x1b[30m"  # Yellow background, black text
+    elif colour_value == 5:
+        return "\x1b[48;2;255;165;0m\x1b[30m"  # Orange background (RGB), black text
+    elif colour_value == 6:  # sollte Braun sein
+        return "\x1b[43m\x1b[30m"  # Yellow background, black text
+    elif colour_value == 7:
+        return "\x1b[47m\x1b[30m"  # White background, black text
+    elif colour_value == 8:
+        return "\x1b[40m\x1b[37m"  # Black background, white text
+
+
 class TerminalView:
     # input() schon fertig
     # print() schon fertig
@@ -68,35 +87,20 @@ class TerminalView:
         message = f"You have lost!"
         print(message)
 
-    def view_draw(self, board):
-        for i in range(len(board.guessed_code_list)):
-            print(f"{i + 1}. Rateversuch:", end="")
-            for stone in board.guessed_code_list[i]:
-                message = self.background_colour(stone.colour.value)
-                message += f"["
-                message += str(stone.colour.value)
-                message += "]"
-                message += "\x1b[0m"  # Reset to default color
-                print(message)
-
     @staticmethod
-    def background_colour(colour_value):
-        if colour_value == 1:  # rot
-            return "\x1b[41m\x1b[30m"  # Red background, black text
-        elif colour_value == 2:  # grün
-            return "\x1b[42m\x1b[30m"  # Green background, black text
-        elif colour_value == 3:
-            return "\x1b[44m\x1b[37m"  # Blue background, white text
-        elif colour_value == 4:
-            return "\x1b[43m\x1b[30m"  # Yellow background, black text
-        elif colour_value == 5:
-            return "\x1b[48;2;255;165;0m\x1b[30m"  # Orange background (RGB), black text
-        elif colour_value == 6:  # sollte Braun sein
-            return "\x1b[43m\x1b[30m"  # Yellow background, black text
-        elif colour_value == 7:
-            return "\x1b[47m\x1b[30m"  # White background, black text
-        elif colour_value == 8:
-            return "\x1b[40m\x1b[37m"  # Black background, white text
+    def view_draw(board, input_type):
+        for i, feedback in enumerate(board):
+            if input_type == "Feedback":
+                print(f"{i + 1}. Feedback:", end="")
+            if input_type == "Rateversuch":
+                print(f"{i + 1}. Rateversuch:", end="")
+
+            message = ""
+            for stone in feedback:
+                message += background_colour(stone.colour.value)
+                message += f"[{stone.colour.value}]"
+                message += "\x1b[0m"  # Reset to default color
+            print(message)
 
     @staticmethod
     def print_help():

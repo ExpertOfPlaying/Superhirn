@@ -11,7 +11,7 @@ class TestBoardClass(unittest.TestCase):
         self.code_array1 = [int(num) for num in self.user_input1]
         self.code_array2 = [int(num) for num in self.user_input2]
         self.value_list = []
-        self.board_stone = [Stone(1).colour.value, Stone(2).colour.value, Stone(3).colour.value, Stone(4).colour.value, Stone(5).colour.value]
+        self.board_stone = [Stone(1), Stone(2), Stone(3), Stone(4), Stone(5)]
 
     def test_create_board(self):
         self.assertTrue(isinstance(self.board, Board))
@@ -47,7 +47,7 @@ class TestBoardClass(unittest.TestCase):
 
     def test_set_guessed_code(self):
         self.board.guessed_code = self.code_array1
-        self.assertEqual(self.board_stone, self.board.guessed_code)
+        self.assertEqual(self.board.convert_stone_array_to_colour(self.board.guessed_code), self.board.convert_stone_array_to_colour(self.board_stone))
 
     def test_get_guessed_code_list(self):
         self.assertEqual(self.board.guessed_code_list, [])
@@ -61,20 +61,18 @@ class TestBoardClass(unittest.TestCase):
 
     def test_set_code(self):
         self.board.code = self.code_array1
-        self.assertEqual(self.board_stone, self.board.code)
+        self.assertEqual(self.board.convert_stone_array_to_colour(self.board.code), self.board.convert_stone_array_to_colour(self.board_stone))
 
     def test_set_feedback(self):
         self.board.feedback = self.code_array1
-        self.assertEqual(self.board_stone, self.board.feedback)
+        self.assertEqual(self.board.convert_stone_array_to_colour(self.board.feedback), self.board.convert_stone_array_to_colour(self.board_stone))
 
     def test_feedback_list(self):
         self.assertEqual(self.board.feedback_list, [])
 
     def test_set_feedback_list(self):
         self.board.feedback = self.code_array1
-        self.board.add_feedback_list()
         self.board.feedback = self.code_array2
-        self.board.add_feedback_list()
         self.assertEqual(2, len(self.board.feedback_list))
 
 
