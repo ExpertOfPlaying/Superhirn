@@ -1,7 +1,5 @@
 from src.main.python.entities.userComponent.user import User
 from src.main.python.entities.boardComponent.board import Board
-# from .coder import coder_game
-from .rater import guesser_game
 
 
 def user_help():
@@ -26,7 +24,7 @@ class Menu:
     def setup_game(self):
         code_max_length = ""
         max_colour = ""
-        attempt_counter = 0
+        attempt_counter = 1
         guessed_code = ""
         code = ""
         feedback = ""
@@ -76,7 +74,7 @@ class Menu:
         board = Board(code_max_length, max_colour, attempt_counter, guessed_code, code, feedback, game_mode)
 
         if self.guesser:
-            guesser_game(user, board)
+            self.guesser_game(user, board)
         if self.coder:
             self.coder_game(user, board)
 
@@ -94,15 +92,49 @@ class Menu:
         end = False
         while not end:
             try:
-                # npc(user.role, board.code)
-                self.terminal.view_provide_feedback()
-                feedback_input = input()
-                self.validator.check_feedback_input(feedback_input, board.code_max_length)
-                board.feedback = feedback_input
-                self.terminal.view_draw(board.feedback_list, "Feedback")
-                board.attempt_counter = board.attempt_counter + 1
-                if board.attempt_counter == board.max_attempts:
-                    self.terminal.view_win()
-                    end = True
+                # npc(user.role) returns guess
+                board.guessed_code = "12345"
+                self.terminal.view_draw(board)
+                while True:
+                    try:
+                        self.terminal.view_provide_feedback()
+                        feedback_input = input()
+                        self.validator.check_feedback_input(feedback_input, board.code_max_length)
+                        board.feedback = feedback_input
+                        board.attempt_counter = board.attempt_counter + 1
+                        if board.attempt_counter == board.max_attempts:
+                            self.terminal.view_win()
+                            end = True
+                            break
+                        else:
+                            break
+                    except self.validator.validationError as error:
+                        print(error)
+            except self.validator.validationError as error:
+                print(error)
+
+    def guesser_game(self, user, board):
+        end = False
+        # npc(user.role) returns code
+        while not end:
+            try:
+                # npc(user.role) returns feedback
+                board.feedback = "88888"
+                self.terminal.view_draw(board)
+                while True:
+                    try:
+                        self.terminal.view_provide_guess()
+                        guess_input = input()
+                        self.validator.check_code_input(guess_input, board.code_max_length, board.max_colour)
+                        board.guessed_code = guess_input
+                        board.attempt_counter = board.attempt_counter + 1
+                        if board.attempt_counter == board.max_attempts:
+                            self.terminal.view_lose()
+                            end = True
+                            break
+                        else:
+                            break
+                    except self.validator.validationError as error:
+                        print(error)
             except self.validator.validationError as error:
                 print(error)

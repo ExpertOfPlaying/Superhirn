@@ -22,10 +22,11 @@ class Validator:
 
     # Validation for code length and whether the stones are in the set intervall or whether the entered value is a digit
     def check_code_input(self, input_strings, code_max_length, max_number):
+
         if len(input_strings) == code_max_length:
             return self.check_stone_input(input_strings, self._ruleBook().min_check_code, int(max_number))
         else:
-            raise self._validationError(f"Input must be equal to {code_max_length}!")
+            raise self._validationError(f"Input length must be equal to {code_max_length}!")
 
     def check_feedback_input(self, input_strings, code_max_length):
         if code_max_length >= len(input_strings) >= 0:

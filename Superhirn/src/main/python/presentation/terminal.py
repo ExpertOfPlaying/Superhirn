@@ -88,19 +88,30 @@ class TerminalView:
         print(message)
 
     @staticmethod
-    def view_draw(board, input_type):
-        for i, feedback in enumerate(board):
-            if input_type == "Feedback":
-                print(f"{i + 1}. Feedback:", end="")
-            if input_type == "Rateversuch":
-                print(f"{i + 1}. Rateversuch:", end="")
+    def view_draw(actual_board):
+        for i, (guessed_attempt, guessed_code) in enumerate(actual_board.guessed_code_list):
+            print(f"{guessed_attempt}. Rateversuch:", end=" ")
 
             message = ""
-            for stone in feedback:
+            for stone in guessed_code:
                 message += background_colour(stone.colour.value)
                 message += f"[{stone.colour.value}]"
-                message += "\x1b[0m"  # Reset to default color
-            print(message)
+                message += "\x1b[0m"  # Reset to the default color
+            print(message, end="  ")  # Print guess without moving to the next line
+
+            # Print feedback if available
+            if i < len(actual_board.feedback_list):
+                feedback_attempt, feedback = actual_board.feedback_list[i]
+                print(f"{feedback_attempt}. Feedback:", end=" ")
+
+                message = ""
+                for stone in feedback:
+                    message += background_colour(stone.colour.value)
+                    message += f"[{stone.colour.value}]"
+                    message += "\x1b[0m"  # Reset to the default color
+                print(message)  # Print feedback with a new line
+            else:
+                print()  # Print a new line if no feedback is available
 
     @staticmethod
     def print_help():
