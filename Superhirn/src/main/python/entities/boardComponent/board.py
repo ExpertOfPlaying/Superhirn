@@ -52,13 +52,11 @@ class Board:
     @guessed_code.setter
     def guessed_code(self, values):
         self._guessed_code = create_board_stone_array(values)
+        self._guessed_code_list.append((self._attempt_counter, self._guessed_code))
 
     @property
     def guessed_code_list(self):
         return self._guessed_code_list
-
-    def add_guessed_code_list(self):
-        self._guessed_code_list.append(self.guessed_code)
 
     @property
     def code(self):
@@ -75,7 +73,7 @@ class Board:
     @feedback.setter
     def feedback(self, values):
         self._feedback = create_board_stone_array(values)
-        self._feedback_list.append(self._feedback)
+        self._feedback_list.append((self._attempt_counter, self._feedback))
 
     @property
     def game_mode(self):
