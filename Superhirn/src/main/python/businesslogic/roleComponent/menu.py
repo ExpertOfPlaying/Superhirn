@@ -1,5 +1,6 @@
 from src.main.python.entities.userComponent.user import User
 from src.main.python.entities.boardComponent.board import Board
+from src.main.python.businesslogic.npcComponent.npc import NPC
 
 
 def user_help():
@@ -18,8 +19,6 @@ class Menu:
     def __init__(self, validator, terminal):
         self.validator = validator
         self.terminal = terminal
-        self.guesser = False
-        self.coder = False
 
     def setup_game(self):
         code_max_length = ""
@@ -40,10 +39,6 @@ class Menu:
                 game_mode = input()
                 mode = self.validator.check_game_mode_input(game_mode)
                 user.role = game_mode
-                if user.role == user.role.Coder:
-                    self.coder = mode
-                if user.role == user.role.Rater:
-                    self.guesser = mode
             except self.validator.validationError as error:
                 print(error)
 
@@ -72,13 +67,14 @@ class Menu:
                 print(error)
 
         board = Board(code_max_length, max_colour, attempt_counter, guessed_code, code, feedback, game_mode)
+        npc = NPC(board)
 
-        if self.guesser:
-            self.guesser_game(user, board)
-        if self.coder:
-            self.coder_game(user, board)
+        if user.role == user.role.Rater:
+            self.guesser_game(user.role, npc, board)
+        if user.role == user.role.Coder:
+            self.coder_game(user.role, npc, board)
 
-    def coder_game(self, user, board):
+    def coder_game(self, role, npc, board):
         self.terminal.view_provide_code()
         code = False
         while not code:
@@ -94,7 +90,7 @@ class Menu:
             try:
                 # npc(user.role) returns guess
                 board.guessed_code = "12345"
-                self.terminal.view_draw(board)
+                self.terminal.view_draw(board, role)
                 while True:
                     try:
                         self.terminal.view_provide_feedback()
@@ -113,14 +109,14 @@ class Menu:
             except self.validator.validationError as error:
                 print(error)
 
-    def guesser_game(self, user, board):
+    def guesser_game(self, role, npc, board):
         end = False
-        # npc(user.role) returns code
+        npc.create_code()
         while not end:
             try:
-                # npc(user.role) returns feedback
-                board.feedback = "88888"
-                self.terminal.view_draw(board)
+                npc.create_feedback()
+                self.terminal.view_draw(board, npc.role)
+                print(board.convert_stone_array_to_colour(board.code))
                 while True:
                     try:
                         self.terminal.view_provide_guess()
@@ -128,8 +124,12 @@ class Menu:
                         self.validator.check_code_input(guess_input, board.code_max_length, board.max_colour)
                         board.guessed_code = guess_input
                         board.attempt_counter = board.attempt_counter + 1
-                        if board.attempt_counter == board.max_attempts:
+                        if self.validator.check_game_state(board.attempt_counter, board.convert_stone_array_to_colour(board.guessed_code), board.convert_stone_array_to_colour(board.code)):
                             self.terminal.view_lose()
+                            end = True
+                            break
+                        elif board.convert_stone_array_to_colour(board.feedback) == "88888":
+                            self.terminal.view_win()
                             end = True
                             break
                         else:
