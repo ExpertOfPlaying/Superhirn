@@ -40,7 +40,9 @@ class NPC:
         for stone_code_position in range(len(self._board.code)):
             if not secret_marked[stone_code_position]:
                 for stone_guess_position in range(len(self._board.guessed_code)):
-                    if not guess_marked[stone_guess_position] and self._board.code[stone_code_position].colour == self._board.guessed_code[stone_guess_position].colour:
+                    if (not guess_marked[stone_guess_position]
+                            and self._board.code[stone_code_position].colour
+                            == self._board.guessed_code[stone_guess_position].colour):
                         feedback += "7"
                         guess_marked[stone_guess_position] = True
                         break
@@ -51,8 +53,19 @@ class NPC:
         self._board.feedback = shuffled_feedback
 
     def generate_guess(self):
-        # n^k (n = max_colours, k = code_max_length)
-        # 2 ^ 4: 16 Rot Rot Grün Grün
+        # total permutations n^k (n = max_colours, k = code_max_length)
+        # permutations after guess (n-m)^k (n = max_colours, m = amount_colours_in_guess,  k = code_max_length)
+        # C(n,k)= n! / k!*(n−k)!
+        # errechnet alle Permutationen →
+        # bei allen Permutationen ausrechnen für alle möglichen Feedbacks wie viele Permutationen danach noch bleiben →
+        # guessed_code = die Permutationen mit der kleinsten größten Zahl →
+        # alle Permutationen ausrechnen mit dem Feedback als Bedingung →
+        # repeat
+
+        all_permutations = self.generate_permutations()
+        # Feedback 00 (n-amount_colours_in_guess)^k
+
+        # 2 ^ 4: 16
         # 3 ^ 4: 81
         # 4 ^ 4: 256
         # 5 ^ 4: 625
