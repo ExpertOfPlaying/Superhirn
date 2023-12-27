@@ -32,9 +32,17 @@ class Board:
     def code_max_length(self):
         return int(self._code_max_length)
 
+    @code_max_length.setter
+    def code_max_length(self, value):
+        self._code_max_length = value
+
     @property
     def max_colour(self):
         return int(self._max_colour)
+
+    @max_colour.setter
+    def max_colour(self, value):
+        self._max_colour = value
 
     @property
     def max_attempts(self):

@@ -115,6 +115,7 @@ class Menu:
 
         while not end:
             try:
+                print(board.convert_stone_array_to_colour(board.code))
                 self.terminal.view_draw(board, npc.role)
 
                 self.terminal.view_provide_guess()

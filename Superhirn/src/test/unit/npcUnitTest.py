@@ -33,7 +33,6 @@ class TestNPCClass(unittest.TestCase):
         self.npc_coder_loser.generate_feedback()
         npc_feedback_colour = self.coder_right_guess_board.convert_stone_array_to_colour(
             self.coder_right_guess_board.feedback)
-        print(npc_feedback_colour)
         self.coder_right_guess_board.feedback = "88888"
         self.assertEqual(npc_feedback_colour,
                          self.coder_right_guess_board.convert_stone_array_to_colour(
@@ -53,8 +52,15 @@ class TestNPCClass(unittest.TestCase):
             self.coder_wrong_guess_board.feedback).count("8"))
 
     def test_npc_feedback_imperfect_feedback2(self):
-        self.coder_wrong_guess_board.guessed_code = "87654"
+        self.coder_wrong_guess_board.guessed_code = "47654"
         self.test_npc_feedback_imperfect_feedback1()
+
+    def test_calculate_permutations(self):
+        for k in range(4, 6):
+            for n in range(2, 9):
+                self.coder_right_guess_board.code_max_length = k
+                self.coder_right_guess_board.max_colour = n
+                print(f"{n}^{k}: {self.npc_guesser_winner.generate_permutations()}")
 
 
 if __name__ == '__main__':
