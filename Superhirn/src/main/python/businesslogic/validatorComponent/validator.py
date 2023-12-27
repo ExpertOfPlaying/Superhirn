@@ -56,18 +56,20 @@ class Validator:
     def check_max_colour_input(self, max_colour):
         return self.set_digit_range(max_colour, self._ruleBook().min_colour, self._ruleBook().max_colour)
 
-    def check_game_state(self, actual_attempt, guess, code):
-        if self._role == self._role.Rater:
-            if guess == code:
-                return self._gameState.Win
-            elif actual_attempt > self._ruleBook().max_try:
-                return self._gameState.Lose
-            else:
-                return False
-        if self._role == self._role.Coder:
-            if guess == code:
-                return self._gameState.Lose
-            elif actual_attempt > self._ruleBook().max_try:
-                return self._gameState.Win
-            else:
-                return False
+    def check_game_state(self, board, user_role):
+        win_condition_coder = user_role == self._role.Coder and board.attempt_counter > self._ruleBook().max_try
+        lose_condition_coder = user_role == self._role.Coder and board.convert_stone_array_to_colour(
+            board.create_board_stone_array(self._ruleBook().winning_feedback)) == board.convert_stone_array_to_colour(
+            board.feedback)
+
+        win_condition_rater = user_role == self._role.Rater and board.convert_stone_array_to_colour(
+            board.create_board_stone_array(self._ruleBook().winning_feedback)) == board.convert_stone_array_to_colour(
+            board.feedback)
+        lose_condition_rater = user_role == self._role.Rater and board.attempt_counter > self._ruleBook().max_try
+
+        if user_role == self._role.Coder:
+            return self._gameState.Win.value if win_condition_coder else (
+                self._gameState.Lose.value if lose_condition_coder else self._gameState.Undecided.value)
+        elif user_role == self._role.Rater:
+            return self._gameState.Lose.value if lose_condition_rater else (
+                self._gameState.Win.value if win_condition_rater else self._gameState.Undecided.value)

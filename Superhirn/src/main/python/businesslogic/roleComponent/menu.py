@@ -111,30 +111,31 @@ class Menu:
 
     def guesser_game(self, role, npc, board):
         end = False
-        npc.create_code()
+        npc.generate_code()
+
         while not end:
             try:
-                npc.create_feedback()
                 self.terminal.view_draw(board, npc.role)
-                print(board.convert_stone_array_to_colour(board.code))
-                while True:
-                    try:
-                        self.terminal.view_provide_guess()
-                        guess_input = input()
-                        self.validator.check_code_input(guess_input, board.code_max_length, board.max_colour)
-                        board.guessed_code = guess_input
-                        board.attempt_counter = board.attempt_counter + 1
-                        if self.validator.check_game_state(board.attempt_counter, board.convert_stone_array_to_colour(board.guessed_code), board.convert_stone_array_to_colour(board.code)):
-                            self.terminal.view_lose()
-                            end = True
-                            break
-                        elif board.convert_stone_array_to_colour(board.feedback) == "88888":
-                            self.terminal.view_win()
-                            end = True
-                            break
-                        else:
-                            break
-                    except self.validator.validationError as error:
-                        print(error)
+
+                self.terminal.view_provide_guess()
+                guess_input = input()
+
+                self.validator.check_code_input(guess_input, board.code_max_length, board.max_colour)
+                board.guessed_code = guess_input
+                board.attempt_counter = board.attempt_counter + 1
+                npc.generate_feedback()
+
+                if not self.validator.check_game_state(board, role):
+                    self.terminal.view_lose()
+                    end = True
+                    break
+                elif self.validator.check_game_state(board, role) == True:
+                    print(self.validator.check_game_state(board, role))
+                    self.terminal.view_win()
+                    end = True
+                    break
+
             except self.validator.validationError as error:
                 print(error)
+
+        self.terminal.view_draw(board, role)

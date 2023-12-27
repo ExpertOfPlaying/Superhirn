@@ -14,9 +14,9 @@ class GameSetupIntegrationTest(unittest.TestCase):
         validation_error = ValidationError
         game_state = GameState
         role = Role
-        validator_coder = Validator(rule_book, validation_error, game_state, role.Coder)
+        validator = Validator(rule_book, validation_error, game_state, role)
         terminal = TerminalView
-        self.menu = Menu(validator_coder, terminal)
+        self.menu = Menu(validator, terminal)
 
     def test_game_setup(self):
         self.menu.setup_game()

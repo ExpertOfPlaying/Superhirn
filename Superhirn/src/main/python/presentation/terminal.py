@@ -107,12 +107,12 @@ class TerminalView:
                 message += background_colour(stone.colour.value)
                 message += f"[{stone.colour.value}]"
                 message += "\x1b[0m"  # Reset to the default color
-            print(message, end="")  # Print guess without moving to the next line
+            print(message, end=" ")  # Print guess without moving to the next line
 
             # Print feedback if available
             if i < len(actual_board.feedback_list):
                 feedback_attempt, feedback = actual_board.feedback_list[i]
-                print(f"{feedback_attempt}. Feedback:", end="")
+                print(f"{i+1}. Feedback:", end="")
 
                 message = ""
                 for stone in feedback:

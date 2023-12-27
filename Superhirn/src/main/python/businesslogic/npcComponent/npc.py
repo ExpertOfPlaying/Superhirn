@@ -22,14 +22,26 @@ class NPC:
     def board(self, board):
         self._board = board
 
-    def create_code(self):
+    def generate_code(self):
         if not self._board.guessed_code:
             self._board.code = "".join(
                 str(random.randint(1, self._board.max_colour)) for _ in range(self._board.code_max_length))
 
-    def create_feedback(self):
-        print(self.board.convert_stone_array_to_colour(self.board.guessed_code))
-        if self._board.code == self._board.guessed_code:
-            self._board.feedback = "88888"
-        elif self._board.attempt_counter <= 1:
-            pass
+    def generate_feedback(self):
+        feedback = ""
+        repeated_colours = []
+
+        for code_position, code_stone in enumerate(self._board.code):
+            for guess_position, guess_stone in enumerate(self._board.guessed_code):
+                if code_position == guess_position and code_stone.colour == guess_stone.colour:
+                    feedback += "8"
+                    repeated_colours.append(guess_stone.colour)
+                elif code_position != guess_position and code_stone.colour == guess_stone.colour:
+                    if guess_stone.colour not in repeated_colours:
+                        feedback += "7"
+                        repeated_colours.append(guess_stone.colour)
+
+        feedback_list = list(feedback)
+        random.shuffle(list(feedback))
+        shuffled_feedback = ''.join(feedback_list)
+        self._board.feedback = shuffled_feedback

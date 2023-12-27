@@ -1,12 +1,6 @@
 from src.main.python.entities.stoneComponent.stone import Stone
 
 
-# static methods
-def create_board_stone_array(values):
-    board_stones = [Stone(value) for value in values]
-    return board_stones
-
-
 class Board:
     def __init__(self, code_max_length, max_colour, attempt_counter, guessed_code, code, feedback, game_mode):
         self._code_max_length = code_max_length
@@ -19,6 +13,20 @@ class Board:
         self._feedback = feedback
         self._feedback_list = []
         self._game_mode = game_mode
+
+    @staticmethod
+    def create_board_stone_array(values):
+        board_stones = [Stone(value) for value in values]
+        return board_stones
+
+    @staticmethod
+    def convert_stone_array_to_colour(stone_array):
+        if all(isinstance(inner_array, list) for inner_array in stone_array):
+            colour_array = [[stone.colour for stone in inner_array] for inner_array in stone_array]
+        else:
+            colour_array = [stone.colour for stone in stone_array]
+
+        return colour_array
 
     @property
     def code_max_length(self):
@@ -51,7 +59,7 @@ class Board:
 
     @guessed_code.setter
     def guessed_code(self, values):
-        self._guessed_code = create_board_stone_array(values)
+        self._guessed_code = self.create_board_stone_array(values)
         self._guessed_code_list.append((self._attempt_counter, self._guessed_code))
 
     @property
@@ -64,7 +72,7 @@ class Board:
 
     @code.setter
     def code(self, values):
-        self._code = create_board_stone_array(values)
+        self._code = self.create_board_stone_array(values)
 
     @property
     def feedback(self):
@@ -72,7 +80,7 @@ class Board:
 
     @feedback.setter
     def feedback(self, values):
-        self._feedback = create_board_stone_array(values)
+        self._feedback = self.create_board_stone_array(values)
         self._feedback_list.append((self._attempt_counter, self._feedback))
 
     @property
@@ -82,14 +90,3 @@ class Board:
     @property
     def feedback_list(self):
         return self._feedback_list
-
-    @staticmethod
-    def convert_stone_array_to_colour(code_array):
-        # Check if code_array is a list of lists
-        if all(isinstance(inner_array, list) for inner_array in code_array):
-            colour_array = [[stone.colour for stone in inner_array] for inner_array in code_array]
-        else:
-            # If code_array is a single list, convert it to a list of lists
-            colour_array = [stone.colour for stone in code_array]
-
-        return colour_array

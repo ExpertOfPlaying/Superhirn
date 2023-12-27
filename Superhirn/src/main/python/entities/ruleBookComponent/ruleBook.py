@@ -10,6 +10,7 @@ class RuleBook:
         self._max_try = 10
         self._min_feedback_colour = 7
         self._max_feedback_colour = 8
+        self._winning_feedback = "88888"
 
     @property
     def min_check_code(self):
@@ -54,3 +55,7 @@ class RuleBook:
     @property
     def max_feedback_colour(self):
         return self._max_feedback_colour
+
+    @property
+    def winning_feedback(self):
+        return self._winning_feedback
