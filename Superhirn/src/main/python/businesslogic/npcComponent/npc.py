@@ -6,6 +6,7 @@ class NPC:
     def __init__(self, board):
         self._board = board
         self._role = self.opposite_role()
+        self._all_permutations = self.generate_all_combinations(self._board.code_max_length, self._board.max_colour)
 
     @property
     def role(self):
@@ -52,35 +53,46 @@ class NPC:
         shuffled_feedback = ''.join(feedback_list)
         self._board.feedback = shuffled_feedback
 
-    def generate_guess(self):
-        # total permutations n^k (n = max_colours, k = code_max_length)
-        # permutations after guess (n-m)^k (n = max_colours, m = amount_colours_in_guess,  k = code_max_length)
-        # C(n,k)= n! / k!*(n−k)!
-        # errechnet alle Permutationen →
-        # bei allen Permutationen ausrechnen für alle möglichen Feedbacks wie viele Permutationen danach noch bleiben →
-        # guessed_code = die Permutationen mit der kleinsten größten Zahl →
-        # alle Permutationen ausrechnen mit dem Feedback als Bedingung →
-        # repeat
-
-        all_permutations = self.generate_permutations()
-        # Feedback 00 (n-amount_colours_in_guess)^k
-
-        # 2 ^ 4: 16
-        # 3 ^ 4: 81
-        # 4 ^ 4: 256
-        # 5 ^ 4: 625
-        # 6 ^ 4: 1296
-        # 7 ^ 4: 2401
-        # 8 ^ 4: 4096
-        # 2 ^ 5: 32
-        # 3 ^ 5: 243
-        # 4 ^ 5: 1024
-        # 5 ^ 5: 3125
-        # 6 ^ 5: 7776
-        # 7 ^ 5: 16807
-        # 8 ^ 5: 32768
-
-        pass
-
     def generate_permutations(self):
         return pow(self._board.max_colour, self._board.code_max_length)
+
+    def generate_all_combinations(self, code_max_length, max_colour):
+        if code_max_length == 0:
+            return ['']
+
+        smaller_combinations = self.generate_all_combinations(code_max_length - 1, max_colour)
+        combinations = []
+
+        for colour in range(1, max_colour + 1):
+            for combination in smaller_combinations:
+                combinations.append(str(colour) + combination)
+
+        return combinations
+
+    def variation_feedback(self, solution):
+        permutation_feedback = []
+        solution_array = []
+        solution_copy = []
+        guess = self._board.convert_colour_array_to_int(self._board.convert_stone_array_to_colour(self._board.guessed_code))
+        for value in solution:
+            solution_array.append(int(value))
+            solution_copy.append(int(value))
+
+        for i in range(len(guess)):
+            if guess[i] == solution_array[i]:
+                permutation_feedback.append(8)
+                solution_copy[i] = None
+
+        for i in range(len(guess)):
+            if guess[i] != solution_array[i] and guess[i] in solution_copy:
+                permutation_feedback.append(7)
+                solution_copy[solution_copy.index(guess[i])] = None
+
+        return permutation_feedback
+
+    def generate_guess(self):
+        last_feedback = self._board.convert_colour_array_to_int(self._board.convert_stone_array_to_colour(self._board.feedback))
+        self._all_permutations = [permutation for permutation in self._all_permutations if
+                                  self.variation_feedback(permutation) == last_feedback]
+
+        self._board.guessed_code = self._all_permutations[0] if self._all_permutations else None

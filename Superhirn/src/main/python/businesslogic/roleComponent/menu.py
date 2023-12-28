@@ -88,24 +88,19 @@ class Menu:
         end = False
         while not end:
             try:
-                # npc(user.role) returns guess
-                board.guessed_code = "12345"
+                npc.generate_guess()
                 self.terminal.view_draw(board, role)
-                while True:
-                    try:
-                        self.terminal.view_provide_feedback()
-                        feedback_input = input()
-                        self.validator.check_feedback_input(feedback_input, board.code_max_length)
-                        board.feedback = feedback_input
-                        board.attempt_counter = board.attempt_counter + 1
-                        if board.attempt_counter == board.max_attempts:
-                            self.terminal.view_win()
-                            end = True
-                            break
-                        else:
-                            break
-                    except self.validator.validationError as error:
-                        print(error)
+                self.terminal.view_provide_feedback()
+                feedback_input = input()
+                self.validator.check_feedback_input(feedback_input, board.code_max_length)
+                board.feedback = feedback_input
+                board.attempt_counter = board.attempt_counter + 1
+                if not self.validator.check_game_state(board, role):
+                    self.terminal.view_lose()
+                    end = True
+                elif self.validator.check_game_state(board, role) == True:
+                    self.terminal.view_win()
+                    end = True
             except self.validator.validationError as error:
                 print(error)
 

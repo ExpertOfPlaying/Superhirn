@@ -55,12 +55,31 @@ class TestNPCClass(unittest.TestCase):
         self.coder_wrong_guess_board.guessed_code = "47654"
         self.test_npc_feedback_imperfect_feedback1()
 
-    def test_calculate_permutations(self):
+    def test_calculate_variations(self):
         for k in range(4, 6):
             for n in range(2, 9):
                 self.coder_right_guess_board.code_max_length = k
                 self.coder_right_guess_board.max_colour = n
                 print(f"{n}^{k}: {self.npc_guesser_winner.generate_permutations()}")
+
+        for k in range(4, 6):
+            for n in range(2, 9):
+                self.coder_right_guess_board.code_max_length = k
+                self.coder_right_guess_board.max_colour = n
+                print(f"{n}^{k}: {self.npc_guesser_winner.generate_permutations()}")
+
+    def test_npc_generate_all_variations(self):
+        self.coder_right_guess_board.max_colour = 8
+        self.coder_right_guess_board.code_max_length = 5
+        print(self.npc_coder_winner.generate_all_combinations(self.coder_right_guess_board.code_max_length,
+                                                              self.coder_right_guess_board.max_colour))
+
+    def test_npc_variation_feedback(self):
+        self.coder_right_guess_board.feedback = "778"
+        print(f"{self.coder_wrong_guess_board.convert_colour_array_to_int(self.coder_wrong_guess_board.convert_stone_array_to_colour(self.coder_wrong_guess_board.code))} "
+              f"{self.coder_wrong_guess_board.convert_colour_array_to_int(self.coder_wrong_guess_board.convert_stone_array_to_colour(self.coder_wrong_guess_board.guessed_code))} "
+              f"{self.npc_coder_winner.variation_feedback(self.coder_wrong_guess_board.code)}")
+        print(self.npc_coder_loser.variation_feedback(self.coder_right_guess_board.code))
 
 
 if __name__ == '__main__':

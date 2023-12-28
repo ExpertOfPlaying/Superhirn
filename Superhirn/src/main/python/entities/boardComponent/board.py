@@ -28,6 +28,15 @@ class Board:
 
         return colour_array
 
+    @staticmethod
+    def convert_colour_array_to_int(colour_array):
+        if all(isinstance(inner_array, list) for inner_array in colour_array):
+            int_array = [[colour.value for colour in inner_array] for inner_array in colour_array]
+        else:
+            int_array = [colour.value for colour in colour_array]
+
+        return int_array
+
     @property
     def code_max_length(self):
         return int(self._code_max_length)
