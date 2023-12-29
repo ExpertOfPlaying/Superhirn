@@ -6,7 +6,7 @@ class Validator:
         self._role = role
 
     @property
-    def validationError(self):
+    def validation_error(self):
         return self._validationError
 
     # Validation for whether the stones are in the set intervall or whether the entered value is a digit
@@ -50,6 +50,7 @@ class Validator:
     def check_max_code_length_input(self, code_max_length):
         return self.set_digit_range(code_max_length, self._ruleBook().min_code_length, self._ruleBook().max_code_length)
 
+    # checks for game mode and depending on input for network and human or npc
     def check_game_mode_input(self, game_mode):
         return self.set_digit_range(game_mode, self._ruleBook().min_game_mode, self._ruleBook().max_game_mode)
 
@@ -59,11 +60,15 @@ class Validator:
     def check_game_state(self, board, user_role):
         win_condition_coder = user_role == self._role.Coder and board.attempt_counter > self._ruleBook().max_try
         lose_condition_coder = user_role == self._role.Coder and board.convert_stone_array_to_colour(
-            board.create_board_stone_array(self._ruleBook().winning_feedback)) == board.convert_stone_array_to_colour(
+            board.create_board_stone_array(self._ruleBook().winning_feedback_5)) == board.convert_stone_array_to_colour(
+            board.feedback) or board.convert_stone_array_to_colour(
+            board.create_board_stone_array(self._ruleBook().winning_feedback_4)) == board.convert_stone_array_to_colour(
             board.feedback)
 
         win_condition_rater = user_role == self._role.Rater and board.convert_stone_array_to_colour(
-            board.create_board_stone_array(self._ruleBook().winning_feedback)) == board.convert_stone_array_to_colour(
+            board.create_board_stone_array(self._ruleBook().winning_feedback_5)) == board.convert_stone_array_to_colour(
+            board.feedback) or board.convert_stone_array_to_colour(
+            board.create_board_stone_array(self._ruleBook().winning_feedback_4)) == board.convert_stone_array_to_colour(
             board.feedback)
         lose_condition_rater = user_role == self._role.Rater and board.attempt_counter > self._ruleBook().max_try
 
@@ -73,3 +78,10 @@ class Validator:
         elif user_role == self._role.Rater:
             return self._gameState.Lose.value if lose_condition_rater else (
                 self._gameState.Win.value if win_condition_rater else self._gameState.Undecided.value)
+
+    def check_port_input(self, input_string):
+        for element in input_string:
+            if not element.isdigit():
+                raise self._validationError(f"Input must be integers!")
+
+        return True

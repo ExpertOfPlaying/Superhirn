@@ -48,6 +48,16 @@ class TerminalView:
         print(message)
 
     @staticmethod
+    def view_ip_address():
+        message = f"IP eingeben!{os.linesep}"
+        print(message)
+
+    @staticmethod
+    def view_port():
+        message = f"Port eingeben!{os.linesep}"
+        print(message)
+
+    @staticmethod
     def view_code_length():
         message = f"Please choose code_length between {RuleBook().min_code_length} and {RuleBook().max_code_length}."
         print(message)

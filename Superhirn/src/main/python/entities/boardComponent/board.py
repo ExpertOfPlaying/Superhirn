@@ -13,6 +13,7 @@ class Board:
         self._feedback = feedback
         self._feedback_list = []
         self._game_mode = game_mode
+        self._observers = []
 
     @staticmethod
     def create_board_stone_array(values):
@@ -107,3 +108,13 @@ class Board:
     @property
     def feedback_list(self):
         return self._feedback_list
+
+    def register_observer(self, observer):
+        self._observers.append(observer)
+
+    def remove_observer(self, observer):
+        self._observers.remove(observer)
+
+    def notify_observers(self):
+        for observer in self._observers:
+            observer.update(self)

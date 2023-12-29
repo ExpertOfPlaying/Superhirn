@@ -1,4 +1,6 @@
 import random
+
+from src.main.python.businesslogic.npcComponent.npcFeedbackError import NPCFeedbackError
 from src.main.python.entities.userComponent.roleEnum import Role
 
 
@@ -23,10 +25,19 @@ class NPC:
     def board(self, board):
         self._board = board
 
+    def update(self, board):
+        self._board = board
+        if self._role == Role.Coder:
+            if not self._board.code:
+                self.generate_code()
+            else:
+                self.generate_feedback()
+        elif self._role == Role.Rater:
+            self.generate_guess()
+
     def generate_code(self):
-        if not self._board.guessed_code:
-            self._board.code = "".join(
-                str(random.randint(1, self._board.max_colour)) for _ in range(self._board.code_max_length))
+        self._board.code = "".join(
+            str(random.randint(1, self._board.max_colour)) for _ in range(self._board.code_max_length))
 
     def generate_feedback(self):
         feedback = ""
@@ -90,9 +101,43 @@ class NPC:
 
         return permutation_feedback
 
+    def calculate_nk_value(self, guess):
+        remaining_colors = self._board.max_colour - len(set(guess))
+        return pow(remaining_colors, self._board.code_max_length)
+
+    @staticmethod
+    def count_dopplungen(guess):
+        counts = {}
+        for color in guess:
+            counts[color] = counts.get(color, 0) + 1
+        dopplungen = sum(c // 2 for c in counts.values())
+        return dopplungen
+
+    def choose_best_guess(self, permutations):
+        if not permutations:
+            raise NPCFeedbackError("Keine verbleibenden Permutationen. Das Spiel kann nicht fortgesetzt werden.")
+
+        max_dopplungen = max(self.count_dopplungen(guess) for guess in permutations)
+
+        permutationen_mit_max_dopplungen = [guess for guess in permutations if
+                                            self.count_dopplungen(guess) == max_dopplungen]
+
+        if permutationen_mit_max_dopplungen:
+            min_nk_value = min(self.calculate_nk_value(guess) for guess in permutationen_mit_max_dopplungen)
+            beste_permutationen = [guess for guess in permutationen_mit_max_dopplungen if
+                                   self.calculate_nk_value(guess) == min_nk_value]
+        else:
+            min_nk_value = min(self.calculate_nk_value(guess) for guess in permutations)
+            beste_permutationen = [guess for guess in permutations if self.calculate_nk_value(guess) == min_nk_value]
+
+        return beste_permutationen[0] if beste_permutationen else None
+
     def generate_guess(self):
         last_feedback = self._board.convert_colour_array_to_int(self._board.convert_stone_array_to_colour(self._board.feedback))
         self._all_permutations = [permutation for permutation in self._all_permutations if
-                                  self.variation_feedback(permutation) == last_feedback]
+                                  sorted(self.variation_feedback(permutation)) == sorted(last_feedback)]
 
-        self._board.guessed_code = self._all_permutations[0] if self._all_permutations else None
+        if not self._all_permutations:
+            raise NPCFeedbackError("Inkonsistenz im Spielablauf entdeckt. Bitte überprüfe das Benutzerfeedback.")
+
+        self._board.guessed_code = self.choose_best_guess(self._all_permutations)
