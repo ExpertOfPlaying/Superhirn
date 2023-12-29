@@ -1,10 +1,11 @@
 import random
 
+from src.main.python.businesslogic.interfaces.observerInterface import Observer
 from src.main.python.businesslogic.npcComponent.npcFeedbackError import NPCFeedbackError
 from src.main.python.entities.userComponent.roleEnum import Role
 
 
-class NPC:
+class NPC(Observer):
     def __init__(self, board):
         self._board = board
         self._role = self.opposite_role()
