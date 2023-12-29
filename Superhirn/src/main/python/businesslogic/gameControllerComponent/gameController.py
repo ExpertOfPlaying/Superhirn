@@ -117,12 +117,16 @@ class GameController:
         self.set_initial_code(board)
 
         while True:
-            board.notify_observers()
-            self._terminal.view_draw(board, role)
-            self.provide_feedback(board)
-
-            if self.check_game_end(board, role):
+            try:
+                board.notify_observers()
                 self._terminal.view_draw(board, role)
+                self.provide_feedback(board)
+
+                if self.check_game_end(board, role):
+                    self._terminal.view_draw(board, role)
+                    reset(self._validator, self._terminal, self._npc_feedback_error)
+            except self._npc_feedback_error as error:
+                print(error)
                 reset(self._validator, self._terminal, self._npc_feedback_error)
 
     def set_initial_code(self, board):
