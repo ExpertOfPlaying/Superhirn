@@ -167,13 +167,17 @@ class GameController:
             board.notify_observers()
 
         while True:
-            self._terminal.view_draw(board, role.Coder)
-            self.perform_guesser_turn(npc, board, server, npc_rater, role)
-            if not server:
-                board.notify_observers()
+            try:
+                self._terminal.view_draw(board, role.Coder)
+                self.perform_guesser_turn(npc, board, server, npc_rater, role)
+                if not server:
+                    board.notify_observers()
 
-            if self.check_game_end(board, role):
-                self._terminal.view_draw(board, role)
+                if self.check_game_end(board, role):
+                    self._terminal.view_draw(board, role)
+                    reset(self._validator, self._terminal, self._npc_feedback_error)
+            except self._npc_feedback_error as error:
+                print(error)
                 reset(self._validator, self._terminal, self._npc_feedback_error)
 
     @staticmethod
@@ -183,8 +187,13 @@ class GameController:
 
     def perform_guesser_turn(self, npc, board, server, npc_rater, role):
         if npc_rater:
-            npc.role = role.Rater
-            board.notify_observers()
+            try:
+                npc.role = role.Rater
+                self._terminal.view_provide_guess()
+                board.notify_observers()
+            except self._npc_feedback_error as error:
+                print(error)
+                reset(self._validator, self._terminal, self._npc_feedback_error)
         else:
             guess_input = self.get_valid_guess(board)
             board.guessed_code = guess_input

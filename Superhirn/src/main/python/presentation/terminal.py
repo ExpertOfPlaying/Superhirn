@@ -100,14 +100,17 @@ class TerminalView:
     @staticmethod
     def view_draw(actual_board, role):
         if actual_board.game_mode == role.value:
-            print(f"Code:", end="")
-            for stone in actual_board.code:
-                message = ""
-                message += background_colour(stone.colour.value)
-                message += f"[{stone.colour.value}]"
-                message += "\x1b[0m"  # Reset to the default color
-                print(message, end="")  # Print code without moving to the next line
-            print()
+            if not actual_board.code:
+                print("Code: Geheimer Server Code")
+            else:
+                print(f"Code:", end="")
+                for stone in actual_board.code:
+                    message = ""
+                    message += background_colour(stone.colour.value)
+                    message += f"[{stone.colour.value}]"
+                    message += "\x1b[0m"  # Reset to the default color
+                    print(message, end="")  # Print code without moving to the next line
+                print()
 
         for i, (guessed_attempt, guessed_code) in enumerate(actual_board.guessed_code_list):
             print(f"{guessed_attempt}. Rateversuch:", end="")

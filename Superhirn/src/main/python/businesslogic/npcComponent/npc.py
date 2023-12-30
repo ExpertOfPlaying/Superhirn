@@ -15,6 +15,10 @@ class NPC(Observer):
     def role(self):
         return self._role
 
+    @role.setter
+    def role(self, role):
+        self._role = role
+
     def opposite_role(self):
         return Role.Coder if self._board.game_mode == Role.Rater.value else Role.Rater
 
