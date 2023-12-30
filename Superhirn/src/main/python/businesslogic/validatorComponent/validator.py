@@ -13,10 +13,10 @@ class Validator:
     def check_stone_input(self, input_strings, min_number, max_number):
         for element in input_strings:
             if not element.isdigit():
-                raise self._validationError(f"Input must be integers between {min_number} and {max_number}!")
+                raise self._validationError(f"Eingabe muss eine Ganzzahl zwischen {min_number} und {max_number} sein!")
 
             if int(element) < int(min_number) or int(element) > int(max_number):
-                raise self._validationError(f"Input must be integers between {min_number} and {max_number}!")
+                raise self._validationError(f"Eingabe muss eine Ganzzahl zwischen {min_number} und {max_number} sein!")
 
         return True
 
@@ -26,7 +26,7 @@ class Validator:
         if len(input_strings) == code_max_length:
             return self.check_stone_input(input_strings, self._ruleBook().min_check_code, int(max_number))
         else:
-            raise self._validationError(f"Input length must be equal to {code_max_length}!")
+            raise self._validationError(f"Eingabe muss eine Länge von genau {code_max_length} haben!")
 
     def check_feedback_input(self, input_strings, code_max_length):
         if code_max_length >= len(input_strings) >= 0:
@@ -36,16 +36,16 @@ class Validator:
                 return self.check_stone_input(input_strings, self._ruleBook().min_feedback_colour,
                                               self._ruleBook().max_feedback_colour)
         else:
-            raise self._validationError(f"Input must be equal or less to {code_max_length}!")
+            raise self._validationError(f"Eingabe darf maximal eine Länge von {code_max_length} haben!")
 
     def set_digit_range(self, value, min_value, max_value):
         if value.isdigit():
             if min_value <= int(value) <= int(max_value):
                 return True
             else:
-                raise self._validationError(f"Input must be an integer between {min_value} or {max_value}!")
+                raise self._validationError(f"Eingabe muss eine Ganzzahl zwischen {min_value} und {max_value} sein!")
         else:
-            raise self._validationError(f"Input must be an integer between {min_value} or {max_value}!")
+            raise self._validationError(f"Eingabe muss eine Ganzzahl zwischen {min_value} und {max_value} sein!")
 
     def check_max_code_length_input(self, code_max_length):
         return self.set_digit_range(code_max_length, self._ruleBook().min_code_length, self._ruleBook().max_code_length)
@@ -82,6 +82,6 @@ class Validator:
     def check_port_input(self, input_string):
         for element in input_string:
             if not element.isdigit():
-                raise self._validationError(f"Input must be integers!")
+                raise self._validationError(f"Eingabe muss eine Ganzzahl sein!")
 
         return True

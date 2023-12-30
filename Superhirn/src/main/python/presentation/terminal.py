@@ -27,24 +27,24 @@ class TerminalView:
 
     @staticmethod
     def view_game_mode():
-        message = f"Welcome to the Superhirn {os.linesep}"
-        message += f"Please choose game-mode:{os.linesep}"
+        message = f"Willkommen  zu Super Superhirn {os.linesep}"
+        message += f"Bitte wähle einen Spielmodus aus:{os.linesep}"
         message += f"1. Coder{os.linesep}"
         message += f"2. Rater{os.linesep}"
         print(message)
 
     @staticmethod
     def view_game_network_mode():
-        message = f"Please choose network mode:{os.linesep}"
+        message = f"Bitte wähle einen Netzwerkmodus aus:{os.linesep}"
         message += f"1. Local{os.linesep}"
         message += f"2. Online{os.linesep}"
         print(message)
 
     @staticmethod
     def view_human_or_npc():
-        message = f"Is Rater human or npc?{os.linesep}"
-        message += f"1. human{os.linesep}"
-        message += f"2. npc{os.linesep}"
+        message = f"Soll der Rater menschlich sein oder ein NPC?{os.linesep}"
+        message += f"1. menschlich{os.linesep}"
+        message += f"2. NPC{os.linesep}"
         print(message)
 
     @staticmethod
@@ -59,42 +59,42 @@ class TerminalView:
 
     @staticmethod
     def view_code_length():
-        message = f"Please choose code_length between {RuleBook().min_code_length} and {RuleBook().max_code_length}."
+        message = f"Bitte wähle die Codelänge zwischen {RuleBook().min_code_length} und {RuleBook().max_code_length}."
         print(message)
 
     @staticmethod
     def view_max_colour():
-        message = f"Please chose max_colour between {RuleBook().min_colour} and {RuleBook().max_colour}."
+        message = f"Bitte wähle die maximale Farbenanzahl zwischen {RuleBook().min_colour} und {RuleBook().max_colour}."
         print(message)
 
     @staticmethod
     def view_username():
-        message = f"Please choose a username."
+        message = f"Bitte wähle einen Benutzernamen."
         print(message)
 
     @staticmethod
     def view_provide_guess():
-        message = "Please provide a guess"
+        message = "Bitte gib deinen Rateversuch ein."
         print(message)
 
     @staticmethod
     def view_provide_code():
-        message = f"Please provide a code"
+        message = f"Bitte gib deinen Code ein."
         print(message)
 
     @staticmethod
     def view_provide_feedback():
-        message = f"Please provide a feedback"
+        message = f"Bitte gib dein Feedback"
         print(message)
 
     @staticmethod
     def view_win():
-        message = f"You have won!"
+        message = f"Du hast gewonnen!"
         print(message)
 
     @staticmethod
     def view_lose():
-        message = f"You have lost!"
+        message = f"Du hast verloren!"
         print(message)
 
     @staticmethod
@@ -138,7 +138,7 @@ class TerminalView:
 
     @staticmethod
     def print_help():
-        message = f"Colour-Coding: RED = 1 GREEN = 2 YELLOW = 3 BLUE = 4 ORANGE = 5 BROWN = 6 WHITE = 7 BLACK = 8{os.linesep}"
-        message += f"Reset the game: r{os.linesep}"
-        message += f"Quit the game: q{os.linesep}"
+        message = f"Colour-Coding: Rot = 1 Grün = 2 Gelb = 3 Blau = 4 Orange = 5 Braun = 6 Weiß = 7 Schwarz = 8{os.linesep}"
+        message += f"Spiel zurücksetzen: r{os.linesep}"
+        message += f"Spiel beenden: q{os.linesep}"
         print(message)
