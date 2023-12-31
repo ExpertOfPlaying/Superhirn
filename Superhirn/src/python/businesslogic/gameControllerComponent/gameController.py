@@ -6,21 +6,21 @@ from src.python.businesslogic.npcComponent.npc import NPC
 from src.python.businesslogic.serverComponent.serverHandler import ServerHandler
 
 
-def command_checker(user_input, terminal, validator, npc_feedback_error):
+def command_checker(user_input, terminal, validator, npc_feedback_error, user_name):
     if user_input == "/q":
         quit_game()
     elif user_input == "/h":
         user_help(terminal)
     elif user_input == "/r":
-        reset(validator, terminal, npc_feedback_error)
+        reset(validator, terminal, npc_feedback_error, user_name)
 
 
 def user_help(view):
     view.print_help()
 
 
-def reset(validator, terminal, npc_feedback_error):
-    return GameController(validator, terminal, npc_feedback_error).setup_game()
+def reset(validator, terminal, npc_feedback_error, user_input):
+    return GameController(validator, terminal, npc_feedback_error, user_input).setup_game()
 
 
 def quit_game():
@@ -28,13 +28,22 @@ def quit_game():
 
 
 class GameController:
-    def __init__(self, validator, terminal, npc_feedback_error):
+    def __init__(self, validator, terminal, npc_feedback_error, user_name=None):
         self._validator = validator
         self._terminal = terminal
         self._npc_feedback_error = npc_feedback_error
+        self._user_name = user_name
+
+    @property
+    def user_name(self):
+        return self._user_name
+
+    @user_name.setter
+    def user_name(self, name):
+        self._user_name = name
 
     def setup_game(self):
-        user = User("", "")
+        user = User("", self._user_name)
         self.choose_game_mode(user)
 
         network_mode = None
@@ -45,7 +54,8 @@ class GameController:
             if network_mode == "2":  # Online-Spiel
                 npc_rater = self.choose_npc_rater()
 
-        self.choose_user_name(user)
+        if not self._user_name:
+            self.choose_user_name(user)
         code_max_length = self.choose_code_max_length()
         max_colours = self.choose_max_colour()
         self.initialize_game(network_mode, network_config, code_max_length, max_colours, user, npc_rater)
@@ -71,6 +81,7 @@ class GameController:
 
     def choose_user_name(self, user):
         user.name = self.get_user_input(self._terminal.view_username)
+        self._user_name = user.name
 
     def choose_code_max_length(self):
         code_max_length = self.get_user_input(self._terminal.view_code_length,
@@ -88,7 +99,7 @@ class GameController:
             try:
                 prompt()
                 input_value = input()
-                command_checker(input_value, self._terminal, self._validator, self._npc_feedback_error)
+                command_checker(input_value, self._terminal, self._validator, self._npc_feedback_error, self._user_name)
                 if validation_function and not validation_function(input_value):
                     raise self._validator.validation_error("Ungültige Eingabe")
 
@@ -125,21 +136,21 @@ class GameController:
 
                 if self.check_game_end(board, role):
                     self._terminal.view_draw(board, role)
-                    reset(self._validator, self._terminal, self._npc_feedback_error)
+                    reset(self._validator, self._terminal, self._npc_feedback_error, self._user_name)
             except self._npc_feedback_error as error:
                 print(error)
-                reset(self._validator, self._terminal, self._npc_feedback_error)
+                reset(self._validator, self._terminal, self._npc_feedback_error, self._user_name)
 
     def set_initial_code(self, board):
-        self._terminal.view_provide_code()
-        code_input = self.get_valid_code_input(board)
+        code_input = self.get_valid_code_input(board, self._terminal.view_provide_code)
         board.code = code_input
 
-    def get_valid_code_input(self, board):
+    def get_valid_code_input(self, board, prompt):
         while True:
             try:
+                prompt()
                 code_input = input()
-                command_checker(code_input, self._terminal, self._validator, self._npc_feedback_error)
+                command_checker(code_input, self._terminal, self._validator, self._npc_feedback_error, self._user_name)
                 if self._validator.check_code_input(code_input, board.code_max_length, board.max_colour):
                     return code_input
             except self._validator.validation_error as error:
@@ -155,7 +166,7 @@ class GameController:
         while True:
             try:
                 feedback_input = input()
-                command_checker(feedback_input, self._terminal, self._validator, self._npc_feedback_error)
+                command_checker(feedback_input, self._terminal, self._validator, self._npc_feedback_error, self._user_name)
                 if self._validator.check_feedback_input(feedback_input, board.code_max_length):
                     return feedback_input
             except self._validator.validation_error as error:
@@ -179,10 +190,10 @@ class GameController:
 
                 if self.check_game_end(board, role):
                     self._terminal.view_draw(board, role)
-                    reset(self._validator, self._terminal, self._npc_feedback_error)
+                    reset(self._validator, self._terminal, self._npc_feedback_error, self._user_name)
             except self._npc_feedback_error as error:
                 print(error)
-                reset(self._validator, self._terminal, self._npc_feedback_error)
+                reset(self._validator, self._terminal, self._npc_feedback_error, self._user_name)
 
     @staticmethod
     def start_online_game(server):
@@ -198,9 +209,9 @@ class GameController:
                 board.notify_observers()
             except self._npc_feedback_error as error:
                 print(error)
-                reset(self._validator, self._terminal, self._npc_feedback_error)
+                reset(self._validator, self._terminal, self._npc_feedback_error, self._user_name)
         else:
-            guess_input = self.get_valid_guess(board)
+            guess_input = self.get_valid_code_input(board, self._terminal.view_provide_guess)
             board.guessed_code = guess_input
 
         if server:
@@ -208,17 +219,6 @@ class GameController:
             server.handle_response(response)
 
         board.attempt_counter = board.attempt_counter + 1
-
-    def get_valid_guess(self, board):
-        while True:
-            try:
-                self._terminal.view_provide_guess()
-                guess_input = input()
-                command_checker(guess_input, self._terminal, self._validator, self._npc_feedback_error)
-                if self._validator.check_code_input(guess_input, board.code_max_length, board.max_colour):
-                    return guess_input
-            except self._validator.validation_error as error:
-                print(error)
 
     def check_game_end(self, board, role):
         if not self._validator.check_game_state(board, role):
