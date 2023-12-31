@@ -58,18 +58,25 @@ class Validator:
         return self.set_digit_range(max_colour, self._ruleBook().min_colour, self._ruleBook().max_colour)
 
     def check_game_state(self, board, user_role):
-        win_condition_coder = user_role == self._role.Coder and board.attempt_counter > self._ruleBook().max_try
-        lose_condition_coder = user_role == self._role.Coder and board.convert_stone_array_to_colour(
-            board.create_board_stone_array(self._ruleBook().winning_feedback_5)) == board.convert_stone_array_to_colour(
-            board.feedback) or board.convert_stone_array_to_colour(
-            board.create_board_stone_array(self._ruleBook().winning_feedback_4)) == board.convert_stone_array_to_colour(
+        winning_feedback_5 = board.convert_stone_array_to_colour(
+            board.create_board_stone_array(self._ruleBook().winning_feedback_5))
+        winning_feedback_4 = board.convert_stone_array_to_colour(
+            board.create_board_stone_array(self._ruleBook().winning_feedback_4))
+        board_feedback = board.convert_stone_array_to_colour(
             board.feedback)
 
-        win_condition_rater = user_role == self._role.Rater and board.convert_stone_array_to_colour(
-            board.create_board_stone_array(self._ruleBook().winning_feedback_5)) == board.convert_stone_array_to_colour(
-            board.feedback) or board.convert_stone_array_to_colour(
-            board.create_board_stone_array(self._ruleBook().winning_feedback_4)) == board.convert_stone_array_to_colour(
-            board.feedback)
+        win_condition_coder = user_role == self._role.Coder and board.attempt_counter > self._ruleBook().max_try
+        lose_condition_coder = (user_role == self._role.Coder
+                                and winning_feedback_5 == board_feedback
+                                and len(winning_feedback_5) == len(board_feedback)
+                                or winning_feedback_4 == board_feedback
+                                and len(winning_feedback_4) == len(board_feedback))
+
+        win_condition_rater = (user_role == self._role.Rater
+                               and winning_feedback_5 == board_feedback
+                               and len(winning_feedback_5) == int(board.code_max_length)
+                               or winning_feedback_4 == board_feedback
+                               and len(winning_feedback_4) == len(board.code_max_length))
         lose_condition_rater = user_role == self._role.Rater and board.attempt_counter > self._ruleBook().max_try
 
         if user_role == self._role.Coder:
