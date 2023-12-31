@@ -65,26 +65,24 @@ class Validator:
         board_feedback = board.convert_stone_array_to_colour(
             board.feedback)
 
-        win_condition_coder = user_role == self._role.Coder and board.attempt_counter > self._ruleBook().max_try
-        lose_condition_coder = (user_role == self._role.Coder
-                                and winning_feedback_5 == board_feedback
-                                and len(winning_feedback_5) == len(board_feedback)
-                                or winning_feedback_4 == board_feedback
-                                and len(winning_feedback_4) == len(board_feedback))
+        lose_condition_coder = user_role == self._role.Coder and (
+                (winning_feedback_5 == board_feedback and len(winning_feedback_5) == len(board_feedback)) or
+                (winning_feedback_4 == board_feedback and len(winning_feedback_4) == len(board_feedback))
+        )
 
-        win_condition_rater = (user_role == self._role.Rater
-                               and winning_feedback_5 == board_feedback
-                               and len(winning_feedback_5) == int(board.code_max_length)
-                               or winning_feedback_4 == board_feedback
-                               and len(winning_feedback_4) == len(board.code_max_length))
-        lose_condition_rater = user_role == self._role.Rater and board.attempt_counter > self._ruleBook().max_try
+        win_condition_rater = user_role == self._role.Rater and (
+                (winning_feedback_5 == board_feedback and len(winning_feedback_5) == board.code_max_length) or
+                (winning_feedback_4 == board_feedback and len(winning_feedback_4) == board.code_max_length)
+        )
+
+        max_attempts_exceeded = board.attempt_counter > self._ruleBook().max_try
 
         if user_role == self._role.Coder:
-            return self._gameState.Win.value if win_condition_coder else (
+            return self._gameState.Win.value if not lose_condition_coder and max_attempts_exceeded else (
                 self._gameState.Lose.value if lose_condition_coder else self._gameState.Undecided.value)
         elif user_role == self._role.Rater:
-            return self._gameState.Lose.value if lose_condition_rater else (
-                self._gameState.Win.value if win_condition_rater else self._gameState.Undecided.value)
+            return self._gameState.Win.value if win_condition_rater else (
+                self._gameState.Lose.value if max_attempts_exceeded else self._gameState.Undecided.value)
 
     def check_port_input(self, input_string):
         for element in input_string:
