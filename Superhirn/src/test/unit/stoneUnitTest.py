@@ -1,6 +1,6 @@
 import unittest
-from src.main.python.entities.stoneComponent.stone import Stone
-from src.main.python.entities.stoneComponent.colourEnum import Colour
+from src.python.entities.stoneComponent.stone import Stone
+from src.python.entities.stoneComponent.colourEnum import Colour
 
 
 class TestStoneClass(unittest.TestCase):

@@ -1,9 +1,9 @@
 import sys
 
-from src.main.python.entities.userComponent.user import User
-from src.main.python.entities.boardComponent.board import Board
-from src.main.python.businesslogic.npcComponent.npc import NPC
-from src.main.python.businesslogic.serverComponent.serverHandler import ServerHandler
+from src.python.entities.userComponent.user import User
+from src.python.entities.boardComponent.board import Board
+from src.python.businesslogic.npcComponent.npc import NPC
+from src.python.businesslogic.serverComponent.serverHandler import ServerHandler
 
 
 def command_checker(user_input, terminal, validator, npc_feedback_error):
@@ -118,6 +118,7 @@ class GameController:
 
         while True:
             try:
+                # NPC Rater soll einen Rateversuch machen
                 board.notify_observers()
                 self._terminal.view_draw(board, role)
                 self.provide_feedback(board)
@@ -161,6 +162,8 @@ class GameController:
                 print(error)
 
     def guesser_game(self, role, npc, board, server=None, npc_rater=False):
+
+        # NPC Coder soll einen Random Code erstellen oder Server soll das Spiel starten
         if server:
             self.start_online_game(server)
         else:
@@ -171,6 +174,7 @@ class GameController:
                 self._terminal.view_draw(board, role.Coder)
                 self.perform_guesser_turn(npc, board, server, npc_rater, role)
                 if not server:
+                    # NPC Coder soll ein Feedback geben
                     board.notify_observers()
 
                 if self.check_game_end(board, role):
@@ -190,6 +194,7 @@ class GameController:
             try:
                 npc.role = role.Rater
                 self._terminal.view_provide_guess()
+                # NPC soll einen Rateversuch machen
                 board.notify_observers()
             except self._npc_feedback_error as error:
                 print(error)

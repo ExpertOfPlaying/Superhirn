@@ -1,8 +1,8 @@
 import random
 
-from src.main.python.businesslogic.interfaces.observerInterface import Observer
-from src.main.python.businesslogic.npcComponent.npcFeedbackError import NPCFeedbackError
-from src.main.python.entities.userComponent.roleEnum import Role
+from src.python.businesslogic.interfaces.observerInterface import Observer
+from src.python.businesslogic.npcComponent.npcFeedbackError import NPCFeedbackError
+from src.python.entities.userComponent.roleEnum import Role
 
 
 class NPC(Observer):
@@ -32,11 +32,10 @@ class NPC(Observer):
 
     def update(self, board):
         self._board = board
-        if self._role == Role.Coder:
-            if not self._board.code:
-                self.generate_code()
-            else:
-                self.generate_feedback()
+        if self._role == Role.Coder and not self._board.code:
+            self.generate_code()
+        elif self._role == Role.Coder and self._board.code:
+            self.generate_feedback()
         elif self._role == Role.Rater:
             self.generate_guess()
 

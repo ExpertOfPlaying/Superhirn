@@ -1,7 +1,7 @@
 import unittest
 
-from src.main.python.entities.userComponent.user import User
-from src.main.python.entities.userComponent.roleEnum import Role
+from src.python.entities.userComponent.user import User
+from src.python.entities.userComponent.roleEnum import Role
 
 
 class TestUserRole(unittest.TestCase):

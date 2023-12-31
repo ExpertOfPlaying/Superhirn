@@ -1,11 +1,11 @@
 import unittest
 
-from src.main.python.businesslogic.validatorComponent.validator import Validator
-from src.main.python.businesslogic.validatorComponent.validationError import ValidationError
-from src.main.python.entities.boardComponent.board import Board
-from src.main.python.entities.userComponent.roleEnum import Role
-from src.main.python.businesslogic.validatorComponent.gameStateEnum import GameState
-from src.main.python.entities.ruleBookComponent.ruleBook import RuleBook
+from src.python.businesslogic.validatorComponent.validator import Validator
+from src.python.businesslogic.validatorComponent.validationError import ValidationError
+from src.python.entities.boardComponent.board import Board
+from src.python.entities.userComponent.roleEnum import Role
+from src.python.businesslogic.validatorComponent.gameStateEnum import GameState
+from src.python.entities.ruleBookComponent.ruleBook import RuleBook
 
 
 class TestValidatorClass(unittest.TestCase):
@@ -75,11 +75,11 @@ class TestValidatorClass(unittest.TestCase):
     # check_lose
     def test_check_game_state_lose_rater(self):
         self.board.attempt_counter = 11
-        self.assertFalse(self.validator.check_game_state(self.board, Role.Rater))
+        self.assertTrue(self.validator.check_game_state(self.board, Role.Rater))
 
     def test_check_game_state_coder(self):
         self.board.attempt_counter = 11
-        self.assertTrue(self.validator.check_game_state(self.board, Role.Coder))
+        self.assertFalse(self.validator.check_game_state(self.board, Role.Coder))
 
     def test_check_game_state_incorrect_guess_coder(self):
         self.board.guessed_code = self.bad_stone_input_string

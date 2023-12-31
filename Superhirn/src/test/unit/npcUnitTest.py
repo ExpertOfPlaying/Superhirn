@@ -1,8 +1,8 @@
 import unittest
 
-from src.main.python.businesslogic.npcComponent.npc import NPC
-from src.main.python.entities.boardComponent.board import Board
-from src.main.python.entities.stoneComponent.colourEnum import Colour
+from src.python.businesslogic.npcComponent.npc import NPC
+from src.python.entities.boardComponent.board import Board
+from src.python.entities.stoneComponent.colourEnum import Colour
 
 
 class TestNPCClass(unittest.TestCase):
@@ -76,10 +76,13 @@ class TestNPCClass(unittest.TestCase):
 
     def test_npc_variation_feedback(self):
         self.coder_right_guess_board.feedback = "778"
-        print(f"{self.coder_wrong_guess_board.convert_colour_array_to_int(self.coder_wrong_guess_board.convert_stone_array_to_colour(self.coder_wrong_guess_board.code))} "
-              f"{self.coder_wrong_guess_board.convert_colour_array_to_int(self.coder_wrong_guess_board.convert_stone_array_to_colour(self.coder_wrong_guess_board.guessed_code))} "
-              f"{self.npc_coder_winner.variation_feedback(self.coder_wrong_guess_board.code)}")
-        print(self.npc_coder_loser.variation_feedback(self.coder_right_guess_board.code))
+        code_wrong = self.coder_wrong_guess_board.convert_colour_array_to_int(self.coder_wrong_guess_board.convert_stone_array_to_colour(self.coder_wrong_guess_board.code))
+        code_right = self.coder_right_guess_board.convert_colour_array_to_int(self.coder_right_guess_board.convert_stone_array_to_colour(self.coder_right_guess_board.code))
+        guess = self.coder_wrong_guess_board.convert_colour_array_to_int(self.coder_wrong_guess_board.convert_stone_array_to_colour(self.coder_wrong_guess_board.guessed_code))
+        print(f"{code_wrong}"
+              f"{guess}"
+              f"{self.npc_coder_winner.variation_feedback(code_wrong)}")
+        print(self.npc_coder_loser.variation_feedback(code_right))
 
 
 if __name__ == '__main__':
