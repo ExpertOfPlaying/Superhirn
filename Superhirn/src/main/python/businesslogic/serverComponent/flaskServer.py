@@ -3,7 +3,6 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Speicher für aktive Spiele
 active_games = {}
 
 
@@ -30,7 +29,6 @@ def calculate_feedback(code, guess):
 @app.route('/', methods=['POST'])
 def handle_request():
     data = request.get_json()
-    print("Empfangene Daten:", data)
 
     game_id = data.get("gameid", 0)
     gamer_id = data.get("gamerid", "")
