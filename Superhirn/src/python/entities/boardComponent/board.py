@@ -1,4 +1,4 @@
-from src.main.python.entities.stoneComponent.stone import Stone
+from src.python.entities.stoneComponent.stone import Stone
 
 
 class Board:

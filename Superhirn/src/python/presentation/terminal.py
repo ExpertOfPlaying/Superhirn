@@ -1,5 +1,4 @@
 import os
-from src.main.python.entities.ruleBookComponent.ruleBook import *
 
 
 def background_colour(colour_value):
@@ -59,12 +58,12 @@ class TerminalView:
 
     @staticmethod
     def view_code_length():
-        message = f"Bitte wähle die Codelänge zwischen {RuleBook().min_code_length} und {RuleBook().max_code_length}."
+        message = f"Bitte wähle die Codelänge zwischen 4 und 5."
         print(message)
 
     @staticmethod
     def view_max_colour():
-        message = f"Bitte wähle die maximale Farbenanzahl zwischen {RuleBook().min_colour} und {RuleBook().max_colour}."
+        message = f"Bitte wähle die maximale Farbenanzahl zwischen 2 und 8."
         print(message)
 
     @staticmethod

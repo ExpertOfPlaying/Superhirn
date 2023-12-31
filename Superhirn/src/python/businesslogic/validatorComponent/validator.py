@@ -1,6 +1,6 @@
 class Validator:
     def __init__(self, rule_book, validation_error, game_state, role):
-        self._ruleBook = rule_book
+        self._rule_book = rule_book
         self._validationError = validation_error
         self._gameState = game_state
         self._role = role
@@ -8,6 +8,10 @@ class Validator:
     @property
     def validation_error(self):
         return self._validationError
+
+    @property
+    def rule_book(self):
+        return self._rule_book
 
     # Validation for whether the stones are in the set intervall or whether the entered value is a digit
     def check_stone_input(self, input_strings, min_number, max_number):
@@ -24,7 +28,7 @@ class Validator:
     def check_code_input(self, input_strings, code_max_length, max_number):
 
         if len(input_strings) == code_max_length:
-            return self.check_stone_input(input_strings, self._ruleBook().min_check_code, int(max_number))
+            return self.check_stone_input(input_strings, self._rule_book().min_check_code, int(max_number))
         else:
             raise self._validationError(f"Eingabe muss eine Länge von genau {code_max_length} haben!")
 
@@ -33,8 +37,8 @@ class Validator:
             if not input_strings:
                 return True
             else:
-                return self.check_stone_input(input_strings, self._ruleBook().min_feedback_colour,
-                                              self._ruleBook().max_feedback_colour)
+                return self.check_stone_input(input_strings, self._rule_book().min_feedback_colour,
+                                              self._rule_book().max_feedback_colour)
         else:
             raise self._validationError(f"Eingabe darf maximal eine Länge von {code_max_length} haben!")
 
@@ -48,20 +52,20 @@ class Validator:
             raise self._validationError(f"Eingabe muss eine Ganzzahl zwischen {min_value} und {max_value} sein!")
 
     def check_max_code_length_input(self, code_max_length):
-        return self.set_digit_range(code_max_length, self._ruleBook().min_code_length, self._ruleBook().max_code_length)
+        return self.set_digit_range(code_max_length, self._rule_book().min_code_length, self._rule_book().max_code_length)
 
     # checks for game mode and depending on input for network and human or npc
     def check_game_mode_input(self, game_mode):
-        return self.set_digit_range(game_mode, self._ruleBook().min_game_mode, self._ruleBook().max_game_mode)
+        return self.set_digit_range(game_mode, self._rule_book().min_game_mode, self._rule_book().max_game_mode)
 
     def check_max_colour_input(self, max_colour):
-        return self.set_digit_range(max_colour, self._ruleBook().min_colour, self._ruleBook().max_colour)
+        return self.set_digit_range(max_colour, self._rule_book().min_colour, self._rule_book().max_colour)
 
     def check_game_state(self, board, user_role):
         winning_feedback_5 = board.convert_stone_array_to_colour(
-            board.create_board_stone_array(self._ruleBook().winning_feedback_5))
+            board.create_board_stone_array(self._rule_book().winning_feedback_5))
         winning_feedback_4 = board.convert_stone_array_to_colour(
-            board.create_board_stone_array(self._ruleBook().winning_feedback_4))
+            board.create_board_stone_array(self._rule_book().winning_feedback_4))
         board_feedback = board.convert_stone_array_to_colour(
             board.feedback)
 
@@ -75,7 +79,7 @@ class Validator:
                 (winning_feedback_4 == board_feedback and len(winning_feedback_4) == board.code_max_length)
         )
 
-        max_attempts_exceeded = board.attempt_counter > self._ruleBook().max_try
+        max_attempts_exceeded = board.attempt_counter > self._rule_book().max_try
 
         if user_role == self._role.Coder:
             return self._gameState.Win.value if not lose_condition_coder and max_attempts_exceeded else (

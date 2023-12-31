@@ -1,9 +1,9 @@
 import sys
 
-from src.main.python.entities.userComponent.user import User
-from src.main.python.entities.boardComponent.board import Board
-from src.main.python.businesslogic.npcComponent.npc import NPC
-from src.main.python.businesslogic.serverComponent.serverHandler import ServerHandler
+from src.python.entities.userComponent.user import User
+from src.python.entities.boardComponent.board import Board
+from src.python.businesslogic.npcComponent.npc import NPC
+from src.python.businesslogic.serverComponent.serverHandler import ServerHandler
 
 
 def command_checker(user_input, terminal, validator, npc_feedback_error):

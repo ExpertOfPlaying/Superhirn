@@ -1,8 +1,8 @@
 import random
 
-from src.main.python.businesslogic.interfaces.observerInterface import Observer
-from src.main.python.businesslogic.npcComponent.npcFeedbackError import NPCFeedbackError
-from src.main.python.entities.userComponent.roleEnum import Role
+from src.python.businesslogic.interfaces.observerInterface import Observer
+from src.python.businesslogic.npcComponent.npcFeedbackError import NPCFeedbackError
+from src.python.entities.userComponent.roleEnum import Role
 
 
 class NPC(Observer):

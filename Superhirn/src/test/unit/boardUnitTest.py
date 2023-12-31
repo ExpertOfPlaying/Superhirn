@@ -1,6 +1,6 @@
 import unittest
-from src.main.python.entities.boardComponent.board import Board
-from src.main.python.entities.stoneComponent.stone import Stone
+from src.python.entities.boardComponent.board import Board
+from src.python.entities.stoneComponent.stone import Stone
 
 
 class TestBoardClass(unittest.TestCase):
