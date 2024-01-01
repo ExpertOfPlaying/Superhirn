@@ -3,7 +3,6 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-# Speicher für aktive Spiele
 active_games = {}
 
 
@@ -11,26 +10,35 @@ def generate_random_code(length, max_colour):
     return ''.join(str(random.randint(1, max_colour)) for _ in range(length))
 
 
-def calculate_feedback(code, guess):
-    feedback = []
-    temp_code = list(code)
-    for i in range(len(guess)):
-        if guess[i] == code[i]:
-            feedback.append("8")
-            temp_code[i] = None
+def generate_feedback(code, guess):
+    feedback = ""
+    secret_marked = [False] * len(code)
+    guess_marked = [False] * len(guess)
 
-    for i in range(len(guess)):
-        if guess[i] in temp_code:
-            feedback.append("7")
-            temp_code[temp_code.index(guess[i])] = None
+    for stone_code_position in range(len(code)):
+        if code[stone_code_position] == guess[stone_code_position]:
+            feedback += "8"
+            secret_marked[stone_code_position] = guess_marked[stone_code_position] = True
 
-    return ''.join(feedback)
+    for stone_code_position in range(len(code)):
+        if not secret_marked[stone_code_position]:
+            for stone_guess_position in range(len(guess)):
+                if (not guess_marked[stone_guess_position]
+                        and code[stone_code_position]
+                        == guess[stone_guess_position]):
+                    feedback += "7"
+                    guess_marked[stone_guess_position] = True
+                    break
+
+    feedback_list = list(feedback)
+    random.shuffle(feedback_list)
+    shuffled_feedback = ''.join(feedback_list)
+    return shuffled_feedback
 
 
 @app.route('/', methods=['POST'])
 def handle_request():
     data = request.get_json()
-    print("Empfangene Daten:", data)
 
     game_id = data.get("gameid", 0)
     gamer_id = data.get("gamerid", "")
@@ -45,7 +53,7 @@ def handle_request():
         response_value = ""
     else:
         code = active_games.get(game_id, "")
-        response_value = calculate_feedback(code, guess)
+        response_value = generate_feedback(code, guess)
 
     response_data = {
         "gameid": game_id,
