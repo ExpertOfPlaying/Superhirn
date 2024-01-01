@@ -13,6 +13,12 @@ def command_checker(user_input, terminal, validator, npc_feedback_error, user_na
         user_help(terminal)
     elif user_input == "/r":
         reset(validator, terminal, npc_feedback_error, user_name)
+    elif user_input == "/f":
+        try:
+            raise npc_feedback_error("Inkonsistenz im Spielablauf entdeckt.")
+        except npc_feedback_error as error:
+            print(error)
+            reset(validator, terminal, npc_feedback_error, user_name)
 
 
 def user_help(view):
