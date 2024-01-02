@@ -52,7 +52,9 @@ class Validator:
             raise self._validation_error(f"Eingabe muss eine Ganzzahl zwischen {min_value} und {max_value} sein!")
 
     def check_max_code_length_input(self, code_max_length):
-        return self.set_digit_range(code_max_length, self._rule_book().min_code_length, self._rule_book().max_code_length)
+        return self.set_digit_range(code_max_length,
+                                    self._rule_book().min_code_length,
+                                    self._rule_book().max_code_length)
 
     # checks for game mode and depending on input for network and human or npc
     def check_game_mode_input(self, game_mode):

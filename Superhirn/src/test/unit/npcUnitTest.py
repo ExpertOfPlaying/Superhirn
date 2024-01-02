@@ -3,6 +3,7 @@ import unittest
 from src.python.businesslogic.npcComponent.npc import NPC
 from src.python.entities.boardComponent.board import Board
 from src.python.entities.stoneComponent.colourEnum import Colour
+from src.python.businesslogic.npcComponent.npcFeedbackError import NPCFeedbackError
 
 
 class TestNPCClass(unittest.TestCase):
@@ -24,10 +25,11 @@ class TestNPCClass(unittest.TestCase):
         self.coder_wrong_guess_board.code = code
         self.coder_right_guess_board.code = code
 
-        self.npc_coder_winner = NPC(self.coder_wrong_guess_board)
-        self.npc_coder_loser = NPC(self.coder_right_guess_board)
-        self.npc_guesser_winner = NPC(self.coder_right_guess_board)
-        self.npc_guesser_loser = NPC(self.coder_wrong_guess_board)
+        npc_feedback_error = NPCFeedbackError
+        self.npc_coder_winner = NPC(self.coder_wrong_guess_board, npc_feedback_error)
+        self.npc_coder_loser = NPC(self.coder_right_guess_board, npc_feedback_error)
+        self.npc_guesser_winner = NPC(self.coder_right_guess_board, npc_feedback_error)
+        self.npc_guesser_loser = NPC(self.coder_wrong_guess_board, npc_feedback_error)
 
     def test_npc_feedback_perfect_feedback(self):
         self.npc_coder_loser.generate_feedback()
@@ -55,34 +57,27 @@ class TestNPCClass(unittest.TestCase):
         self.coder_wrong_guess_board.guessed_code = "47654"
         self.test_npc_feedback_imperfect_feedback1()
 
-    def test_calculate_variations(self):
-        for k in range(4, 6):
-            for n in range(2, 9):
-                self.coder_right_guess_board.code_max_length = k
-                self.coder_right_guess_board.max_colour = n
-                print(f"{n}^{k}: {self.npc_guesser_winner.generate_permutations()}")
-
-        for k in range(4, 6):
-            for n in range(2, 9):
-                self.coder_right_guess_board.code_max_length = k
-                self.coder_right_guess_board.max_colour = n
-                print(f"{n}^{k}: {self.npc_guesser_winner.generate_permutations()}")
-
-    def test_npc_generate_all_variations(self):
-        self.coder_right_guess_board.max_colour = 8
-        self.coder_right_guess_board.code_max_length = 5
-        print(self.npc_coder_winner.generate_all_combinations(self.coder_right_guess_board.code_max_length,
-                                                              self.coder_right_guess_board.max_colour))
+    def test_npc_generate_all_permutations(self):
+        self.coder_right_guess_board.max_colour = 2
+        self.coder_right_guess_board.code_max_length = 4
+        min_permutation_array = ['1111', '1112', '1121', '1122', '1211', '1212', '1221', '1222', '2111', '2112',
+                                 '2121', '2122', '2211', '2212', '2221', '2222']
+        calculated_permutations = self.npc_coder_winner.generate_all_permutations(
+            self.coder_right_guess_board.code_max_length,
+            self.coder_right_guess_board.max_colour)
+        self.assertEqual(min_permutation_array, calculated_permutations)
 
     def test_npc_variation_feedback(self):
         self.coder_right_guess_board.feedback = "778"
-        code_wrong = self.coder_wrong_guess_board.convert_colour_array_to_int(self.coder_wrong_guess_board.convert_stone_array_to_colour(self.coder_wrong_guess_board.code))
-        code_right = self.coder_right_guess_board.convert_colour_array_to_int(self.coder_right_guess_board.convert_stone_array_to_colour(self.coder_right_guess_board.code))
-        guess = self.coder_wrong_guess_board.convert_colour_array_to_int(self.coder_wrong_guess_board.convert_stone_array_to_colour(self.coder_wrong_guess_board.guessed_code))
-        print(f"{code_wrong}"
-              f"{guess}"
-              f"{self.npc_coder_winner.variation_feedback(code_wrong)}")
-        print(self.npc_coder_loser.variation_feedback(code_right))
+        code_wrong = self.coder_wrong_guess_board.convert_colour_array_to_int(
+            self.coder_wrong_guess_board.convert_stone_array_to_colour(self.coder_wrong_guess_board.code))
+        code_right = self.coder_right_guess_board.convert_colour_array_to_int(
+            self.coder_right_guess_board.convert_stone_array_to_colour(self.coder_right_guess_board.code))
+
+        semi_feedback = [8, 8, 7]
+        self.assertEqual(semi_feedback, self.npc_coder_winner.variation_feedback(code_wrong))
+        perfect_feedback = [8, 8, 8, 8, 8]
+        self.assertEqual(perfect_feedback, self.npc_coder_loser.variation_feedback(code_right))
 
 
 if __name__ == '__main__':

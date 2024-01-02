@@ -116,7 +116,7 @@ class GameController:
 
     def initialize_game(self, network_mode, network_config, code_max_length, max_colours, user, npc_rater):
         board = Board(code_max_length, max_colours, 1, "", "", "", user.role.value)
-        npc = NPC(board)
+        npc = NPC(board, self._npc_feedback_error)
         board.register_observer(npc)
 
         if network_mode == "2":
@@ -172,7 +172,11 @@ class GameController:
         while True:
             try:
                 feedback_input = input()
-                command_checker(feedback_input, self._terminal, self._validator, self._npc_feedback_error, self._user_name)
+                command_checker(feedback_input,
+                                self._terminal,
+                                self._validator,
+                                self._npc_feedback_error,
+                                self._user_name)
                 if self._validator.check_feedback_input(feedback_input, board.code_max_length):
                     return feedback_input
             except self._validator.validation_error as error:
