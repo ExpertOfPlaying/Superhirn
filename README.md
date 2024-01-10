@@ -31,7 +31,7 @@ Already a pro? Just edit this README.md and make it your own. Want to make it ea
 
 ```
 cd existing_repo
-git remote add origin https://gitlab.rz.htw-berlin.de/s0572802/wise23-24_superhirn_11.git
+git remote add origin https://github.com/ExpertOfPlaying/Superhirn.git
 git branch -M main
 git push -uf origin main
 ```
