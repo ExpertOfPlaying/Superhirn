@@ -29,10 +29,10 @@ class ServerHandler:
 
     def server_handler_send_json(self):
         move_data = {
-            "gameid": int(self._game_id),
+            "gameid": self._game_id,
             "gamerid": self._user_name,
-            "positions": int(self._board.code_max_length),
-            "colors": int(self._board.max_colour),
+            "positions": self._board.code_max_length,
+            "colors": self._board.max_colour,
             "value": self.convert_guess_to_string()
         }
 
@@ -41,12 +41,12 @@ class ServerHandler:
         return requests.post(url, json=move_data, headers=headers)
 
     def handle_response(self, response):
-        if response.status_code == 200:
-            data = response.json()[0]
+        if response.status_code == 404:
+            print("Etwas is schief gelaufen: ", response.status_code)
+        else:
+            data = response.json()
             self.game_id = data["gameid"]
             if self._first_call_made:
                 self._board.feedback = data["value"]
             else:
                 self._first_call_made = True
-        else:
-            print("Etwas is schief gelaufen: ", response.status_code)
