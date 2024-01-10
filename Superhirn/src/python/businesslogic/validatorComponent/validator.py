@@ -72,8 +72,8 @@ class Validator:
             board.feedback)
 
         lose_condition_coder = user_role == self._role.Coder and (
-                (winning_feedback_5 == board_feedback and len(winning_feedback_5) == len(board_feedback)) or
-                (winning_feedback_4 == board_feedback and len(winning_feedback_4) == len(board_feedback))
+                (winning_feedback_5 == board_feedback and len(winning_feedback_5) == board.code_max_length) or
+                (winning_feedback_4 == board_feedback and len(winning_feedback_4) == board.code_max_length)
         )
 
         win_condition_rater = user_role == self._role.Rater and (
