@@ -63,7 +63,7 @@ def handle_request():
         "value": response_value
     }
 
-    return jsonify(response_data, 200)
+    return jsonify(response_data)
 
 
 if __name__ == '__main__':
